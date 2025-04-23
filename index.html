@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 
 <html lang="es">
@@ -2564,20 +2563,18 @@ function enviarPedido() {
     alert("Debe agregar al menos una llave al carrito.");
     return;
   }
+const mensaje =
+  "Cotización EL VECI\n\n" +
+  "Está generando una cotización con la marca ‘EL VECI’, su aliado, garantizando llaves que le brindan seguridad y calidad.\n\n" +
+  "🧑 Nombre: " + nombre + "\n" +
+  "📍 Ciudad: " + ciudad + "\n\n" +
+  "🧾 " + resumen + "\n" +
+  "🔑 Total de llaves: " + totalLlaves + "\n" +
+  "💵 Total a pagar: $" + totalDinero.toFixed(2) + "\n\n";
 
-  const mensaje =
-    "Cotización EL VECI\n\n" +
-    "Cliente:\n" +
-    "Nombre: " + nombre + "\n" +
-    "Ciudad: " + ciudad + "\n\n" +
-    resumen + "\n" +
-    "Total de llaves: " + totalLlaves + "\n" +
-    "Total a pagar: $" + totalDinero.toFixed(2) + "\n\n" +
-    "Está generando una cotización con la marca ‘EL VECI’, su aliado, garantizando llaves que le brindan seguridad y calidad.";
-
-  const mensajeCodificado = encodeURIComponent(mensaje);
-  const url = "https://wa.me/5930983889592?text=" + mensajeCodificado;
-  window.open(url, "_blank");
+const mensajeCodificado = encodeURIComponent(mensaje);
+const url = "https://wa.me/5930983889592?text=" + mensajeCodificado;
+window.open(url, "_blank");
 }
 </script>
 <script>
@@ -2772,18 +2769,19 @@ function enviarPedido() {
     resumen += `${item.codigo} - ${item.cantidad} llaves = $${subtotal.toFixed(2)}\n`;
   });
 
-  const mensaje = 
-    "Cotización EL VECI\n\n" +
-    "Cliente:\n" +
-    "Nombre: " + nombre + "\n" +
-    "Ciudad: " + ciudad + "\n\n" +
-    resumen + "\n" +
-    "Total de llaves: " + totalLlaves + "\n" +
-    "Total a pagar: $" + totalDinero.toFixed(2) + "\n\n" +
-    "Está generando una cotización con la marca ‘EL VECI’, su aliado, garantizando llaves que le brindan seguridad y calidad.";
+ const mensaje =
+  "Cotización EL VECI\n\n" +
+  "Está generando una cotización con la marca ‘EL VECI’, su aliado, garantizando llaves que le brindan seguridad y calidad.\n\n" +
+  "🧑 Nombre: " + nombre + "\n" +
+  "📍 Ciudad: " + ciudad + "\n\n" +
+  "🧾 " + resumen + "\n" +
+  "🔑 Total de llaves: " + totalLlaves + "\n" +
+  "💵 Total a pagar: $" + totalDinero.toFixed(2) + "\n\n";
 
-  const url = "https://wa.me/5930983889592?text=" + encodeURIComponent(mensaje);
-  window.open(url, "_blank");
+const mensajeCodificado = encodeURIComponent(mensaje);
+const url = "https://wa.me/5930983889592?text=" + mensajeCodificado;
+window.open(url, "_blank");
+
 }
 </script>
 <script>
@@ -2877,11 +2875,11 @@ function mostrarGuia() {
     </div>
     <strong>Guía de uso del catálogo</strong><br>
     🟢 <strong>Paso 1:</strong> Seleccione el tipo de compra:<br>
-    • Al por menor<br>
-    • Promoción “El Veci” (mínimo 1000 llaves)<br>
-    • Al por mayor (mínimo 10.000 llaves)<br><br>
+    • Al por menor (desde 1 llave $0.23 ctvs.)<br>
+    • Promoción “El Veci” (mínimo 1000 llaves $0.20ctvs.))<br>
+    • Al por mayor (mínimo 10.000 llaves $0.186ctvs.)<br><br>
     ⚠️ Estos precios aplican solo para llaves de la Línea de Hogar.<br><br>
-    🚗 Las llaves de la Línea Automotriz tienen un precio único por unidad.<br><br>
+    🚗 Las llaves de la Línea Automotriz y otros productos tienen un precio único por unidad.<br><br>
     ✏️ <strong>Paso 2:</strong> Busque el código o revise la llave deseada.<br>
     📦 <strong>Paso 3:</strong> Ingrese la cantidad y presione “Agregar”.<br>
     📝 <strong>Paso 4:</strong> Complete su nombre y ciudad.<br>
