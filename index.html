@@ -1,6 +1,4 @@
 
-
-
 <!DOCTYPE html>
 
 <html lang="es">
@@ -2175,8 +2173,6 @@
 <input id="ciudad" placeholder="Tu ciudad" type="text"/>
 <button onclick="enviarPedido()">Enviar por WhatsApp</button>
 </div>
-
-</script>
 <!-- FIN DEL ASISTENTE -->
 <script>
 function verificarCondicionesAntesDeEnviar() {
@@ -2313,74 +2309,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-<script>
-  function filtrarPorLinea(linea) {
-    const productos = document.querySelectorAll('.producto');
 
-    productos.forEach(producto => {
-      if (linea === 'todas') {
-        producto.style.display = 'block';
-      } else {
-        if (producto.classList.contains(linea)) {
-          producto.style.display = 'block';
-        } else {
-          producto.style.display = 'none';
-        }
-      }
-    });
-  }
-<script>
-<script>
-function detectarEnter(event) {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    filtrarLlaves();
-  }
-}
-
-function filtrarLlaves() {
-  const input = document.getElementById("buscador").value.toLowerCase().trim();
-  const verTodoBtn = document.getElementById("verTodoBtn");
-  if (verTodoBtn) {
-    verTodoBtn.style.display = input.length > 0 ? "inline-block" : "none";
-  }
-
-  const productos = document.querySelectorAll(".producto");
-  let encontrado = false;
-
-  productos.forEach(producto => {
-    const codigoParrafo = Array.from(producto.querySelectorAll("p")).find(p =>
-      p.innerText.toLowerCase().startsWith("código:")
-    );
-
-    if (codigoParrafo) {
-      const codigo = codigoParrafo.innerText.toLowerCase().replace("código:", "").trim();
-
-      if (codigo === input) {
-        producto.style.display = "block";
-        encontrado = true;
-
-        // Hacer scroll al producto
-        setTimeout(() => {
-          producto.scrollIntoView({ behavior: "smooth", block: "center" });
-          producto.classList.add("resaltado");
-          setTimeout(() => {
-            producto.classList.remove("resaltado");
-          }, 2000);
-        }, 200);
-      } else {
-        producto.style.display = "none";
-      }
-    } else {
-      producto.style.display = "none";
-    }
-  });
-
-  if (!encontrado && input.length > 0) {
-    productos.forEach(p => p.style.display = "none");
-  }
-}
-</script>
 <script>
 function detectarEnter(e) {
   if (e.key === "Enter") {
@@ -2861,7 +2790,6 @@ function agregarPedido(nombreProducto, inputId) {
 }
 </style>
 <div id="navegacion-flotante">
-
 </div>
 <div id="botonesFlotantes">
 <button onclick="mostrarGuia()" title="Guía de uso">❓🔑</button>
@@ -2911,5 +2839,27 @@ function mostrarGuia() {
     script.src += `?v=${version}`;
   });
 </script>
-</body>
+<script>
+function detectarEnter(event) {
+  if (event.key === "Enter") {
+    const codigo = document.getElementById("buscador").value.trim().toUpperCase();
+    const productos = document.querySelectorAll(".producto");
+    let encontrado = false;
+
+    productos.forEach(producto => {
+      const codigoTexto = producto.innerText.toUpperCase();
+      if (codigoTexto.includes("CÓDIGO: " + codigo)) {
+        producto.scrollIntoView({ behavior: "smooth", block: "start" });
+        producto.classList.add("resaltado");
+        setTimeout(() => producto.classList.remove("resaltado"), 2000);
+        encontrado = true;
+      }
+    });
+
+    if (!encontrado) {
+      alert("Código no encontrado. Intente con otro.");
+    }
+  }
+}
+</script></body>
 </html>
