@@ -1,0 +1,2905 @@
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Catálogo Interactivo - EL VECI</title>
+<style>
+  body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 16px; }
+  .producto, .resumen { background: white; padding: 20px; border-radius: 12px; margin-bottom: 30px; box-shadow: 0 0 10px rgba(0,0,0,0.1); max-width: 100%; }
+  .producto h2, .resumen h2 { font-size: 1.2rem; text-align: center; }
+  .imagen img { width: 100%; max-width: 160px; height: auto; cursor: zoom-in; }
+  input[type='number'], input[type='text'] { width: 100%; padding: 12px; font-size: 1rem; margin-top: 10px; border-radius: 8px; border: 1px solid #ccc; }
+  button { width: 100%; padding: 12px; font-size: 1rem; border: none; border-radius: 8px; margin-top: 10px; cursor: pointer; }
+  .boton-verde { background-color: #25d366; color: white; }
+  .boton-azul { background-color: #007bff; color: white; }
+  .boton-amarillo { background-color: #ffc107; color: black; }
+  .boton-rojo { background-color: red; color: white; }
+  .carrito-item { background: #f9f9f9; padding: 12px; border-radius: 10px; margin-bottom: 16px; }
+  .carrito-item-buttons { display: flex; flex-direction: column; gap: 8px; margin-top: 10px; }
+  @media only screen and (max-width: 600px) {
+    .producto, .resumen { padding: 16px; }
+    input, button { font-size: 1rem; }
+  }
+
+  .boton-agregar {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+    width: 100%;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+
+  .boton-agregado {
+    background-color: #ccc;
+    color: #555;
+    cursor: default;
+  }
+<style>
+  .producto {
+    margin-bottom: 40px;
+  }
+
+  /* Agrega aquí */
+  .resaltado {
+    border: 3px solid #25d366;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #25d366;
+    transition: all 0.3s ease-in-out;
+  }
+</style>
+<style>
+.carrito-item-buttons button {
+  margin: 5px;
+  padding: 5px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.carrito-item-buttons button:nth-child(1) {
+  background-color: #ffc107; /* amarillo para Editar */
+  color: black;
+}
+.carrito-item-buttons button:nth-child(2) {
+  background-color: #dc3545; /* rojo para Eliminar */
+  color: white;
+}
+#pedido + input[type="text"], #pedido + input[type="text"] + input {
+  margin-top: 10px;
+  padding: 6px;
+  width: 90%;
+  max-width: 400px;
+}
+#pedido + input[type="text"] + input + button {
+  margin-top: 10px;
+  background-color: #25d366;
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+</style>
+<style>
+#botonesFlotantes {
+  position: fixed;
+  top: 30%;
+  right: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 9999;
+}
+#botonesFlotantes button {
+  width: 45px;
+  height: 45px;
+  font-size: 20px;
+  border: none;
+  border-radius: 50%;
+  background-color: #007bff;
+  color: white;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  cursor: pointer;
+}
+@media (max-width: 600px) {
+  #botonesFlotantes {
+    top: 25%;
+    right: 5px;
+  }
+  #botonesFlotantes button {
+    width: 38px;
+    height: 38px;
+    font-size: 18px;
+  }
+}
+</style>
+</head>
+<body>
+<div <div="" class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
+<h2 style="text-align:center;">Estimado cliente</h2>
+<p style="text-align:center; font-size:1rem;">
+    Antes de continuar con este catálogo interactivo, por favor seleccione el tipo de compra que desea realizar:
+    <br/><br/>
+    - Al por menor<br/>
+    - Promoción EL VECI<br/>
+    - Al por mayor<br/><br/>
+    Esta selección le permitirá visualizar los valores correspondientes por cada llave y generar su compra.
+    <br/><br/>
+    Si solo desea ver el catálogo interactivo, puede continuar sin seleccionar ninguna opción.
+  </p>
+<select id="tipoCompra" onchange="actualizarResumen()" style="width:100%; padding:12px; font-size:1rem; border-radius:8px;">
+<option value="">-- Seleccione el tipo de compra --</option>
+<option value="0.23">Al por menor (1 a 999 llaves) - $0.23 c/u</option>
+<option value="0.20">Promoción EL VECI (1000 a 9999 llaves) - $0.20 c/u</option>
+<option value="0.186">Al por mayor (desde 10,000 llaves) - $0.186 c/u</option>
+</select>
+</div>
+<div class="producto" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CATÁLOGO INTERACTIVO "EL VECI"<div style="text-align:center;"><p style="font-family: 'Georgia', serif; font-size: 1.15rem; text-align: center; color: #333; margin: 15px 0;">Usted puede seleccionar el código de la llave que necesite, indicar la cantidad requerida y agregarla al carrito. Al finalizar, tendrá la opción de enviar su pedido por WhatsApp para recibir una cotización formal de manera directa.</p><img src="imagenes/logo_el_veci.png" style="max-width:300px;margin:20px 0;"/></div> </h2>
+<p style="font-size: 1.05rem; font-weight: bold; margin-top: 10px; text-align: center;">🔑 Si usted ya conoce el código de la llave que necesita, puede escribirlo a continuación y generar su lista de pedido. En caso de no tener el código, también puede explorar todo nuestro catálogo con tranquilidad.</p><input id="buscador" onkeypress="detectarEnter(event)" placeholder="Buscar por código..." type="text"/>
+<div class="producto" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<button onclick="filtrarPorLinea('linea-hogar')" style="margin: 5px; padding: 10px 20px; border-radius: 8px;">🏠 Línea Hogar</button>
+<button onclick="filtrarPorLinea('linea-automotriz')" style="margin: 5px; padding: 10px 20px; border-radius: 8px;">🚗 Línea Automotriz</button>
+<button onclick="filtrarPorLinea('otros')" style="margin: 5px; padding: 10px 20px; border-radius: 8px;">📦 Otros</button>
+</div>
+<div id="inicio"></div>
+<div style="text-align: center; margin-top: 12px;">
+<button id="verTodoBtn" onclick="resetearFiltro()" style="display:none; background-color:#007bff; color:white; border:none; border-radius:8px; padding:10px 20px; font-size:1rem;">Ver todo el catálogo nuevamente</button>
+</div>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TR3 TRAVEX</h2>
+<div class="imagen">
+<a href="imagenes/TR3.jpg" target="_blank">
+<img alt="TR3 llave" src="imagenes/TR3.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/TR3.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> TR3</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> Para Cerraduras TRAVEX</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadTR3">Cantidad que desea comprar:</label>
+<input id="cantidadTR3" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTR3" onclick="agregarPedido('TR3 TRAVEX', 'cantidadTR3')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA107 / YALE FORTE TRAVEX</h2>
+<div class="imagen">
+<a href="imagenes/YA107.jpg" target="_blank">
+<img alt="YA107 llave" src="imagenes/YA107.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA107.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA107</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> Para Cerraduras YALE</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA107">Cantidad que desea comprar:</label>
+<input id="cantidadYA107" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA107" onclick="agregarPedido('YA107 / YALE FORTE TRAVEX', 'cantidadYA107')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>KW7 / KWIKSET</h2>
+<div class="imagen">
+<a href="imagenes/KW7.jpg" target="_blank">
+<img alt="KW7 llave" src="imagenes/KW7.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/KW7.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> KW7</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> Para Cerraduras KWIKSET</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadKW7">Cantidad que desea comprar:</label>
+<input id="cantidadKW7" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadKW7" onclick="agregarPedido('KW7 / KWIKSET', 'cantidadKW7')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CA7K / CANTOL</h2>
+<div class="imagen">
+<a href="imagenes/CA7K.jpg" target="_blank">
+<img alt="CA7K llave" src="imagenes/CA7K.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/CA7K.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> CA7K</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANTOL 7 PINES</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadCA7K">Cantidad que desea comprar:</label>
+<input id="cantidadCA7K" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCA7K" onclick="agregarPedido('CA7K / CANTOL', 'cantidadCA7K')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI14 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI14.jpg" target="_blank">
+<img alt="VI1 llave" src="imagenes/VI14.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI14.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI14</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> VIRO 6 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI14">Cantidad que desea comprar:</label>
+<input id="cantidadVI14" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI14" onclick="agregarPedido('VI14 / VIRO', 'cantidadVI14')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI13 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI13.jpg" target="_blank">
+<img alt="VI1 llave" src="imagenes/VI13.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI13.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI13</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> VIRO 6 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidad_VI13">Cantidad que desea comprar:</label>
+<input id="cantidadVI13" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI13" onclick="agregarPedido('VI13 VIRO', 'cantidadVI13')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI2 / 1065 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI2.jpg" target="_blank">
+<img alt="VI2 llave" src="imagenes/VI2.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI2.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI2</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> VIRO 5 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI2">Cantidad que desea comprar:</label>
+<input id="cantidadVI2" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI2" onclick="agregarPedido('VI2 / VIRO', 'cantidadVI2')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI1 / 1065R / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI1.jpg" target="_blank">
+<img alt="VI1 llave" src="imagenes/VI1.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI1.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI1</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> VIRO 5 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI1">Cantidad que desea comprar:</label>
+<input id="cantidadVI1" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI1" onclick="agregarPedido('VI1 / VIRO', 'cantidadVI1')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI5 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI5.jpg" target="_blank">
+<img alt="VI5 llave" src="imagenes/VI5.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI5.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI5</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS VIRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI5">Cantidad que desea comprar:</label>
+<input id="cantidadVI5" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI5" onclick="agregarPedido('VI5 / VIRO', 'cantidadVI5')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI6 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI6.jpg" target="_blank">
+<img alt="VI6 llave" src="imagenes/VI6.jpg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI6.jpg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI6</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS VIRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI6">Cantidad que desea comprar:</label>
+<input id="cantidadVI6" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI6" onclick="agregarPedido('VI6 / VIRO', 'cantidadVI6')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI4 / 2002/ VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI4.jpeg" target="_blank">
+<img alt="VI4 llave" src="imagenes/VI4.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI4.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI4</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS VIRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI4">Cantidad que desea comprar:</label>
+<input id="cantidadVI4" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI4" onclick="agregarPedido('VI4 / VIRO', 'cantidadVI4')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI3 / 2002R / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI3.jpeg" target="_blank">
+<img alt="VI3 llave" src="imagenes/VI3.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI3.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI3</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS VIRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI3">Cantidad que desea comprar:</label>
+<input id="cantidadVI3" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI3" onclick="agregarPedido('VI3 / VIRO', 'cantidadVI3')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI7 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI7.jpeg" target="_blank">
+<img alt="VI7 llave" src="imagenes/VI7.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI7.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI7</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS VIRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI7">Cantidad que desea comprar:</label>
+<input id="cantidadVI7" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI7" onclick="agregarPedido('VI7 / VIRO', 'cantidadVI7')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI8 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI8.jpeg" target="_blank">
+<img alt="VI7 llave" src="imagenes/VI8.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI8.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI8</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS VIRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI8">Cantidad que desea comprar:</label>
+<input id="cantidadVI8" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI8" onclick="agregarPedido('VI8 / VIRO', 'cantidadVI8')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI9 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI9.jpeg" target="_blank">
+<img alt="VI9 llave" src="imagenes/VI9.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI9.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI9</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS VIRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI9">Cantidad que desea comprar:</label>
+<input id="cantidadVI9" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI9" onclick="agregarPedido('VI9 / VIRO', 'cantidadVI9')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VI10 / 2001 / VIRO</h2>
+<div class="imagen">
+<a href="imagenes/VI10.jpeg" target="_blank">
+<img alt="VI10 llave" src="imagenes/VI10.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/VI10.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> VI10</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS VIRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadVI10">Cantidad que desea comprar:</label>
+<input id="cantidadVI10" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVI10" onclick="agregarPedido('VI10 / VIRO', 'cantidadVI10')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>GB3 / 2005R / GLOBE</h2>
+<div class="imagen">
+<a href="imagenes/GB3.jpeg" target="_blank">
+<img alt="GB3 llave" src="imagenes/GB3.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/GB3.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> GB3</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS GLOBE / GLOBE DORADO 4 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadGB3">Cantidad que desea comprar:</label>
+<input id="cantidadGB3" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadGB3" onclick="agregarPedido('GB3 / 2005R / GLOBE', 'cantidadGB3')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>GB4 / 2005 / GLOBE</h2>
+<div class="imagen">
+<a href="imagenes/GB4.jpeg" target="_blank">
+<img alt="GB4 llave" src="imagenes/GB4.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/GB4.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> GB4</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS GLOBE / GLOBE DORADO 4 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadGB4">Cantidad que desea comprar:</label>
+<input id="cantidadGB4" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadGB4" onclick="agregarPedido('GB4 / 2005 / GLOBE', 'cantidadGB4')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>GB7 / GLOBE</h2>
+<div class="imagen">
+<a href="imagenes/GB7.jpeg" target="_blank">
+<img alt="GB7 llave" src="imagenes/GB7.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/GB7.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> GB7</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS GLOBE / GLOBE NEGRO 5 PINES</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadGB7">Cantidad que desea comprar:</label>
+<input id="cantidadGB7" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadGB7" onclick="agregarPedido('GB7 / GLOBE', 'cantidadGB7')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>FA5 / LLAVE LARGA DE LA GB3</h2>
+<div class="imagen">
+<a href="imagenes/FA5.jpeg" target="_blank">
+<img alt="FA5 llave" src="imagenes/FA5.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a></div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/FA5.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> FA5</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS GLOBE / FAMA/GLOBE DORADO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadFA5">Cantidad que desea comprar:</label>
+<input id="cantidadFA5" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadFA5" onclick="agregarPedido('FA5 / GLOBE / FAMA/GLOBE DORADO', 'cantidadFA5')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>FA6 / LLAVE CONTRARIA A LA FA5</h2>
+<div class="imagen">
+<a href="imagenes/FA6.jpeg" target="_blank">
+<img alt="FA6 llave" src="imagenes/FA6.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/FA6.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> FA6</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CANDADOS GLOBE / FAMA/GLOBE DORADO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadFA6">Cantidad que desea comprar:</label>
+<input id="cantidadFA6" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadFA6" onclick="agregarPedido('FA6 / GLOBE / FAMA/GLOBE DORADO', 'cantidadFA6')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA108 / YALE / TRAVÉX / FORTE</h2>
+<div class="imagen">
+<a href="imagenes/YA108.jpeg" target="_blank">
+<img alt="YA108 llave" src="imagenes/YA108.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA108.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA108</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> FORTE 7 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA108">Cantidad que desea comprar:</label>
+<input id="cantidadYA108" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA108" onclick="agregarPedido('YA108 / FORTE 7 PINES IZQUIERDA', 'cantidadYA108')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA8 / 1005R / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA8.jpeg" target="_blank">
+<img alt="YA8 llave" src="imagenes/YA8.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA8.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA8</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE 6 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA8">Cantidad que desea comprar:</label>
+<input id="cantidadYA8" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA8" onclick="agregarPedido('YA8 / YALE 6 PINES IZQUIERDA', 'cantidadYA8')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA10 / 1000R / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA10.jpeg" target="_blank">
+<img alt="YA10 llave" src="imagenes/YA10.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA10.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA10</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE 5 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA10">Cantidad que desea comprar:</label>
+<input id="cantidadYA10" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA10" onclick="agregarPedido('YA10 / YALE 5 PINES IZQUIERDA', 'cantidadYA10')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA6 / 1000 / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA6.jpeg" target="_blank">
+<img alt="YA6 llave" src="imagenes/YA6.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA6.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA6</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE 5 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA6">Cantidad que desea comprar:</label>
+<input id="cantidadYA6" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA6" onclick="agregarPedido('YA6 / YALE 5 PINES DERECHA', 'cantidadYA6')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA35 / 1000 / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA35.jpeg" target="_blank">
+<img alt="YA35 llave" src="imagenes/YA35.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA35.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA35</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE 5 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA35">Cantidad que desea comprar:</label>
+<input id="cantidadYA35" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA35" onclick="agregarPedido('YA35 / YALE 5 PINES DERECHA', 'cantidadYA35')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA11 / 1000 / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA11.jpeg" target="_blank">
+<img alt="YA11 llave" src="imagenes/YA11.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA11.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA11</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE 5 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA11">Cantidad que desea comprar:</label>
+<input id="cantidadYA11" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA11" onclick="agregarPedido('YA11 / YALE 5 PINES DERECHA', 'cantidadYA11')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA29 / 1005 / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA29.jpeg" target="_blank">
+<img alt="YA29 llave" src="imagenes/YA29.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA29.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA29</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE TRAVEX 6 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA29">Cantidad que desea comprar:</label>
+<input id="cantidadYA29" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA29" onclick="agregarPedido('YA29 / YALE TRAVEX 6 PINES DERECHA', 'cantidadYA29')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA7 / 1005 / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA7.jpeg" target="_blank">
+<img alt="YA7 llave" src="imagenes/YA7.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA7.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA7</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE 6 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA7">Cantidad que desea comprar:</label>
+<input id="cantidadYA7" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA7" onclick="agregarPedido('YA7 / YALE 6 PINES DERECHA', 'cantidadYA7')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA30 / TRAVÉX / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA30.jpeg" target="_blank">
+<img alt="YA30 llave" src="imagenes/YA30.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA30.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA30</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE TRAVEX 6 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA30">Cantidad que desea comprar:</label>
+<input id="cantidadYA30" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA30" onclick="agregarPedido('YA30 / YALE TRAVEX 6 PINES IZQUIERDA', 'cantidadYA30')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA1 / 2030 / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA1.jpeg" target="_blank">
+<img alt="YA1 llave" src="imagenes/YA1.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA1.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA1</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE MEDIANA 5 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadYA1">Cantidad que desea comprar:</label>
+<input id="cantidadYA1" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA1" onclick="agregarPedido('YA1 / YALE MEDIANA 5 PINES DER.', 'cantidadYA1')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>YA2 / 2030R / YALE</h2>
+<div class="imagen">
+<a href="imagenes/YA2.jpeg" target="_blank">
+<img alt="YA2 llave" src="imagenes/YA2.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/YA2.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> YA2</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> YALE MEDIANA 5 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> No Disponible</p>
+</div>
+<label for="cantidadYA2">Cantidad que desea comprar:</label>
+<input id="cantidadYA2" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadYA2" onclick="agregarPedido('YA2 / YALE MEDIANA 5 PINES IZQUIERDA', 'cantidadYA2')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>KW1L / KWIKSET / GEO</h2>
+<div class="imagen">
+<a href="imagenes/KW1L.jpeg" target="_blank">
+<img alt="KW1L llave" src="imagenes/KW1L.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/KW1L.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> KW1L</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> LLAVE LARGA KW1 KWIKSET / GEO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadKW1L">Cantidad que desea comprar:</label>
+<input id="cantidadKW1L" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadKW1L" onclick="agregarPedido('KW1L / LLAVE LARGA KW1 KWIKSET / GEO', 'cantidadKW1L')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>KW1 / 1090 / KWIKSET / GEO / FANAL</h2>
+<div class="imagen">
+<a href="imagenes/KW1.jpeg" target="_blank">
+<img alt="KW1 llave" src="imagenes/KW1.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/KW1.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> KW1</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> KWIKSET / GEO / FANAL</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadKW1">Cantidad que desea comprar:</label>
+<input id="cantidadKW1" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadKW1" onclick="agregarPedido('KW1 / KWIKSET / GEO / FANAL', 'cantidadKW1')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>KW2 / KWIKSET</h2>
+<div class="imagen">
+<a href="imagenes/KW1.jpeg" target="_blank">
+<img alt="KW2 llave" src="imagenes/KW2.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/KW2.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> KW2</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> KWIKSET</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadKW2">Cantidad que desea comprar:</label>
+<input id="cantidadKW2" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadKW2" onclick="agregarPedido('KW2 / KWIKSET', 'cantidadKW2')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>GO2 / 1075 / GLOBE</h2>
+<div class="imagen">
+<a href="imagenes/GO2.jpeg" target="_blank">
+<img alt="GO2 llave" src="imagenes/GO2.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/GO2.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> GO2</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> GLOBE DORADO</p>
+<p><strong>Stock:</strong> No Disponible</p>
+</div>
+<label for="cantidadGO2">Cantidad que desea comprar:</label>
+<input id="cantidadGO2" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadGO2" onclick="agregarPedido('GO2 / GLOBE DORADO', 'cantidadGO2')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>SA2 / SARGENT LION / GLOBE DORADO</h2>
+<div class="imagen">
+<a href="imagenes/SA2.jpeg" target="_blank">
+<img alt="SA2 llave" src="imagenes/SA2.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/SA2.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> SA2</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> SARGENT LION / GLOBE DORADO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadSA2">Cantidad que desea comprar:</label>
+<input id="cantidadSA2" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadSA2" onclick="agregarPedido('SA2 / SARGENT LION / GLOBE DORADO', 'cantidadSA2')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CO2 / GLOBE DORADO</h2>
+<div class="imagen">
+<a href="imagenes/CO2.jpeg" target="_blank">
+<img alt="CO2 llave" src="imagenes/CO2.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/CO2.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> CO2</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> GLOBE DORADO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadCO2">Cantidad que desea comprar:</label>
+<input id="cantidadCO2" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCO2" onclick="agregarPedido('CO2 / GLOBE DORADO', 'cantidadCO2')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CO6 / 1077 / GLOBE NEGRO</h2>
+<div class="imagen">
+<a href="imagenes/CO6.jpeg" target="_blank">
+<img alt="CO6 llave" src="imagenes/CO6.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/CO6.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> CO6</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> GLOBE NEGRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadCO6">Cantidad que desea comprar:</label>
+<input id="cantidadCO6" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCO6" onclick="agregarPedido('CO6 / GLOBE NEGRO', 'cantidadCO6')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CO38 / CORBIN</h2>
+<div class="imagen">
+<a href="imagenes/CO38.jpeg" target="_blank">
+<img alt="CO38 llave" src="imagenes/CO38.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/CO38.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> CO38</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CORBIN 5 PINES USA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadC38">Cantidad que desea comprar:</label>
+<input id="cantidadCO38" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCO38" onclick="agregarPedido('CO38 / CORBIN 5 PINES USA', 'cantidadCO38')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>SC7 / SCHLAGE</h2>
+<div class="imagen">
+<a href="imagenes/SC7.jpeg" target="_blank">
+<img alt="SC7 llave" src="imagenes/SC7.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/SC7.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> SC7</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> SCHLAGE 6 PINES</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadSC7">Cantidad que desea comprar:</label>
+<input id="cantidadSC7" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadSC7" onclick="agregarPedido('SC7 / SCHLAGE 6 PINES', 'cantidadCO38')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>SC1 / 1500 / SCHLAGE</h2>
+<div class="imagen">
+<a href="imagenes/SC1.jpeg" target="_blank">
+<img alt="SC1 llave" src="imagenes/SC1.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/SC1.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> SC1</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> SCHLAGE 5 PINES</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadSC1">Cantidad que desea comprar:</label>
+<input id="cantidadSC1" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadSC1" onclick="agregarPedido('SC1 / SCHLAGE 5 PINES', 'cantidadSC1')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>GT7 / GATO / IDEACE</h2>
+<div class="imagen">
+<a href="imagenes/GT7.jpeg" target="_blank">
+<img alt="GT7 llave" src="imagenes/GT7.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/GT7.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> GT7</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> GATO 5 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadGT7">Cantidad que desea comprar:</label>
+<input id="cantidadGT7" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadGT7" onclick="agregarPedido('GT7 / GATO 5 PINES DERECHA', 'cantidadGT7')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>FAN1D / FANAL</h2>
+<div class="imagen">
+<a href="imagenes/FAN1D.jpeg" target="_blank">
+<img alt="FAN1D llave" src="imagenes/FAN1D.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/FAN1D.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> FAN1D</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> FANAL 5 PINES DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadFAN1D">Cantidad que desea comprar:</label>
+<input id="cantidadFAN1D" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadFAN1D" onclick="agregarPedido('FAN1D / FANAL 5 PINES DERECHA', 'cantidadFAN1D')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CO37 / CORBIN</h2>
+<div class="imagen">
+<a href="imagenes/CO37.jpeg" target="_blank">
+<img alt="CO37 llave" src="imagenes/CO37.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/CO37.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> CO37</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> CORBIN 4 PINES USA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="cantidadCO37">Cantidad que desea comprar:</label>
+<input id="cantidadCO37" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCO37" onclick="agregarPedido('CO37 / CORBIN 4 PINES USA', 'cantidadCO37')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>PH55/52 / PHILIPS</h2>
+<div class="imagen">
+<a href="imagenes/PH55.jpeg" target="_blank">
+<img alt="PH55 llave" src="imagenes/PH55.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/PH55.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> PH55/52</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> PHILIPS</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="PH55">Cantidad que desea comprar:</label>
+<input id="cantidadPH55" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadPH55" onclick="agregarPedido('PH55 / PHILIPS', 'cantidadPH55')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>PR1 / LANFOR / CURTISA</h2>
+<div class="imagen">
+<a href="imagenes/PR1.jpeg" target="_blank">
+<img alt="PR1 llave" src="imagenes/PR1.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/PR1.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> PR1</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> LANFOR/CURTISA 5 PINES</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="PR1">Cantidad que desea comprar:</label>
+<input id="cantidadPR1" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadPR1" onclick="agregarPedido('PR1 / LANFOR / CURTISA', 'cantidadPR1')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>QU1 / 1030 / SA1</h2>
+<div class="imagen">
+<a href="imagenes/QU1.jpeg" target="_blank">
+<img alt="QU1 llave" src="imagenes/QU1.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/QU1.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> QU1 / SA1</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> QUEEN/GLOBE DORADO</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="QU1">Cantidad que desea comprar:</label>
+<input id="cantidadQU1" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadQU1" onclick="agregarPedido('QU1 / QUEEN/GLOBE DORADO', 'cantidadQU1')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TK1 / TAPA DE GASOLINA</h2>
+<div class="imagen">
+<a href="imagenes/TK1.jpeg" target="_blank">
+<img alt="TK1 llave" src="imagenes/TK1.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/TK1.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> TK1</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> TAPA DE GASOLINA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="TK1">Cantidad que desea comprar:</label>
+<input id="cantidadTK1" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTK1" onclick="agregarPedido('TK1 / TAPA DE GASOLINA', 'cantidadTK1')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TRU3D / TRUPER KLAUSS</h2>
+<div class="imagen">
+<a href="imagenes/TRU3D.jpeg" target="_blank">
+<img alt="TRU3D llave" src="imagenes/TRU3D.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/TRU3D.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> TRU3D</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> TRUPER KLAUSS</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="TRU3D">Cantidad que desea comprar:</label>
+<input id="cantidadTRU3D" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTRU3D" onclick="agregarPedido('TRU3D / TRUPER KLAUSS', 'cantidadTRU3D')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>PH32 / PHILIPS</h2>
+<div class="imagen">
+<a href="imagenes/PH32.jpeg" target="_blank">
+<img alt="PH32 llave" src="imagenes/PH32.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/PH32.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> PH32</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> PHILIPS 4 PINES</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="PH32">Cantidad que desea comprar:</label>
+<input id="cantidadPH32" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadPH32" onclick="agregarPedido('PH32 / PHILIPS', 'cantidadPH32')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>GT8 / GATO</h2>
+<div class="imagen">
+<a href="imagenes/GT8.jpeg" target="_blank">
+<img alt="GT8 llave" src="imagenes/GT8.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/GT8.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> GT8</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> GATO 5 PINES IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="GT8">Cantidad que desea comprar:</label>
+<input id="cantidadGT8" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadGT8" onclick="agregarPedido('GT8 / GATO', 'cantidadGT8')">Agregar al pedido</button>
+</div>
+<div class="producto linea-hogar" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>AMC1 / GABETA</h2>
+<div class="imagen">
+<a href="imagenes/AMC1.jpeg" target="_blank">
+<img alt="AMC1 llave" src="imagenes/AMC1.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p style="text-align:center;"><strong>¿Quieres ver la llave más grande?</strong><br/><a href="imagenes/AMC1.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a></p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Hogar</p>
+<p><strong>Código:</strong> AMC1</p>
+<p><strong>Material:</strong> Bronce</p>
+<p><strong>Uso:</strong> GABETA FINA IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+</div>
+<label for="AMC1">Cantidad que desea comprar:</label>
+<input id="cantidadAMC1" placeholder="Ej: 10" type="number"/>
+<button class="boton-agregar" id="btn_cantidadAMC1" onclick="agregarPedido('AMC1/ GABETA', 'cantidadAMC1')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.75" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CHV3P / GENERAL MOTORS SPARK-SAIL-AVEO</h2>
+<div class="imagen">
+<a href="imagenes/CHV3P.jpeg" target="_blank">
+<img alt="Llave CHV3P" src="imagenes/CHV3P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/CHV3P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> CHV3P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.75</p>
+</div>
+<label for="cantidadCHV3P">Cantidad que desea comprar:</label>
+<input id="cantidadCHV3P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCHV3P" onclick="agregarPedido('CHV3P / GENERAL MOTORS SPARK-SAIL-AVEO', 'cantidadCHV3P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.75" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CHV2P / DAEWOO CORSA EVOLUTION</h2>
+<div class="imagen">
+<a href="imagenes/CHV2P.jpeg" target="_blank">
+<img alt="Llave CHV2P" src="imagenes/CHV2P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/CHV2P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> CHV2P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.75</p>
+</div>
+<label for="cantidadCHV2P">Cantidad que desea comprar:</label>
+<input id="cantidadCHV2P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCHV2P" onclick="agregarPedido('CHV2P / DAEWOO CORSA EVOLUTION', 'cantidadCHV2P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.00" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CAT / CATERPILLAR</h2>
+<div class="imagen">
+<a href="imagenes/CAT.jpeg" target="_blank">
+<img alt="Llave CAT" src="imagenes/CAT.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/CAT.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> CAT</p>
+<p><strong>Stock:</strong> No Disponible</p>
+<p><strong>Precio unitario:</strong> $2.00</p>
+</div>
+<label for="cantidadCAT">Cantidad que desea comprar:</label>
+<input id="cantidadCAT" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCAT" onclick="agregarPedido('CAT / CATERPILLAR', 'cantidadCAT')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.25" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CARCASA SZ10</h2>
+<div class="imagen">
+<a href="imagenes/CARCASA SZ10.jpeg" target="_blank">
+<img alt="Llave CARCASA SZ10" src="imagenes/CARCASA SZ10.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/CARCASA SZ10.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> CARCASA SZ10</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.25</p>
+</div>
+<label for="cantidadCARCASA SZ10">Cantidad que desea comprar:</label>
+<input id="cantidadCARCASA SZ10" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCARCASA SZ10" onclick="agregarPedido('CARCASA SZ10', 'cantidadCARCASA SZ10')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.00" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>ASTRA TP</h2>
+<div class="imagen">
+<a href="imagenes/ASTRA TP.jpeg" target="_blank">
+<img alt="Llave ASTRA TP" src="imagenes/ASTRA TP.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/ASTRA TP.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> ASTRA TP</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.00</p>
+</div>
+<label for="cantidadASTRA TP">Cantidad que desea comprar:</label>
+<input id="cantidadASTRA TP" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadASTRA TP" onclick="agregarPedido('ASTRA TP', 'cantidadASTRA TP')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.00" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>CORSA TP</h2>
+<div class="imagen">
+<a href="imagenes/CORSA TP.jpeg" target="_blank">
+<img alt="Llave CORSA TP" src="imagenes/CORSA TP.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/CORSA TP.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> CORSA TP</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.00</p>
+</div>
+<label for="cantidadCORSA TP">Cantidad que desea comprar:</label>
+<input id="cantidadCORSA TP" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadCORSA TP" onclick="agregarPedido('CORSA TP', 'cantidadCORSA TP')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>DMAX</h2>
+<div class="imagen">
+<a href="imagenes/DMAX.jpeg" target="_blank">
+<img alt="Llave DMAX" src="imagenes/DMAX.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/DMAX.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> DMAX</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadDMAX">Cantidad que desea comprar:</label>
+<input id="cantidadDMAX" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadDMAX" onclick="agregarPedido('DMAX', 'cantidadDMAX')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.60" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>DN4 / DATSUN-NISSAN-INFINITI</h2>
+<div class="imagen">
+<a href="imagenes/DN4.jpeg" target="_blank">
+<img alt="Llave DN4" src="imagenes/DN4.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/DN4.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> DN4</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.60</p>
+</div>
+<label for="cantidadDN4">Cantidad que desea comprar:</label>
+<input id="cantidadDN4" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadDN4" onclick="agregarPedido('DN4 / DATSUN-NISSAN-INFINITI', 'cantidadDN4')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>GM25P / GM/SUZUKI/TATA/HINO/HYUND/KIA</h2>
+<div class="imagen">
+<a href="imagenes/GM25P.jpeg" target="_blank">
+<img alt="Llave GM25P" src="imagenes/GM25P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/GM25P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> GM25P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadGM25P">Cantidad que desea comprar:</label>
+<input id="cantidadGM25P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadGM25P" onclick="agregarPedido('GM25P / GM/SUZUKI/TATA/HINO/HYUND/KIA', 'cantidadGM25P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>GM26P / GM/SUZUKI/DAIHATSU/HYUNDAI/KIA</h2>
+<div class="imagen">
+<a href="imagenes/GM26P.jpeg" target="_blank">
+<img alt="Llave GM26P" src="imagenes/GM26P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/GM26P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> GM26P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadGM26P">Cantidad que desea comprar:</label>
+<input id="cantidadGM26P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadGM26P" onclick="agregarPedido('GM26P / GM/SUZUKI/DAIHATSU/HYUNDAI/KIA', 'cantidadGM26P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>HINO</h2>
+<div class="imagen">
+<a href="imagenes/HINO.jpeg" target="_blank">
+<img alt="Llave HINO" src="imagenes/HINO.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/HINO.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> HINO</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadHINO">Cantidad que desea comprar:</label>
+<input id="cantidadHINO" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadHINO" onclick="agregarPedido('HINO', 'cantidadHINO')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>HY9P / HYUNDAI/KIA ELANTRA</h2>
+<div class="imagen">
+<a href="imagenes/HY9P.jpeg" target="_blank">
+<img alt="Llave HY9P" src="imagenes/HY9P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/HY9P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> HY9P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadHY9P">Cantidad que desea comprar:</label>
+<input id="cantidadHY9P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadHY9P" onclick="agregarPedido('HY9P / HYUNDAI/KIA ELANTRA', 'cantidadHY9P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>HY8P / HYUNDAI/KIA SANTA FE-TUCSON</h2>
+<div class="imagen">
+<a href="imagenes/HY8P.jpeg" target="_blank">
+<img alt="Llave HY8P" src="imagenes/HY8P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/HY8P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> HY8P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadHY8P">Cantidad que desea comprar:</label>
+<input id="cantidadHY8P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadHY8P" onclick="agregarPedido('HY8P / HYUNDAI/KIA SANTA FE-TUCSON', 'cantidadHY8P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>HY7P / HYUNDAI TUCSON MATRIX ACCENT</h2>
+<div class="imagen">
+<a href="imagenes/HY7P.jpeg" target="_blank">
+<img alt="Llave HY7P" src="imagenes/HY7P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/HY7P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> HY7P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadHY7P">Cantidad que desea comprar:</label>
+<input id="cantidadHY7P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadHY7P" onclick="agregarPedido('HY7P / HYUNDAI TUCSON MATRIX ACCENT', 'cantidadHY7P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>HY6P</h2>
+<div class="imagen">
+<a href="imagenes/HY6P.jpeg" target="_blank">
+<img alt="Llave HY6P" src="imagenes/HY6P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/HY6P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> HY6P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadHY6P">Cantidad que desea comprar:</label>
+<input id="cantidadHY6P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadHY6P" onclick="agregarPedido('HY6P', 'cantidadHY6P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>HONDA IZQUIERDA</h2>
+<div class="imagen">
+<a href="imagenes/HONDA IZQUIERDA.jpeg" target="_blank">
+<img alt="Llave HONDA IZQUIERDA" src="imagenes/HONDA IZQUIERDA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/HONDA IZQUIERDA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> HONDA IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadHONDA IZQUIERDA">Cantidad que desea comprar:</label>
+<input id="cantidadHONDA IZQUIERDA" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadHONDA IZQUIERDA" onclick="agregarPedido('HONDA IZQUIERDA', 'cantidadHONDA IZQUIERDA')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>HONDA DERECHA</h2>
+<div class="imagen">
+<a href="imagenes/HONDA DERECHA.jpeg" target="_blank">
+<img alt="Llave HONDA DERECHA" src="imagenes/HONDA DERECHA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/HONDA DERECHA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> HONDA DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadHONDA DERECHA">Cantidad que desea comprar:</label>
+<input id="cantidadHONDA DERECHA" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadHONDA DERECHA" onclick="agregarPedido('HONDA DERECHA', 'cantidadHONDA DERECHA')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.75" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>HO12P / HONDA MOTO</h2>
+<div class="imagen">
+<a href="imagenes/HO12P.jpeg" target="_blank">
+<img alt="Llave HO12P" src="imagenes/HO12P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/HO12P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> HO12P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.75</p>
+</div>
+<label for="cantidadHO12P">Cantidad que desea comprar:</label>
+<input id="cantidadHO12P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadHO12P" onclick="agregarPedido('HO12P / HONDA MOTO', 'cantidadHO12P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.75" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>MG1P / MULT-LOCK</h2>
+<div class="imagen">
+<a href="imagenes/MG1P.jpeg" target="_blank">
+<img alt="Llave MG1P" src="imagenes/MG1P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/MG1P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> MG1P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.75</p>
+</div>
+<label for="cantidadMG1P">Cantidad que desea comprar:</label>
+<input id="cantidadMG1P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadMG1P" onclick="agregarPedido('MG1P / MULT-LOCK', 'cantidadMG1P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>FO4P / FORD</h2>
+<div class="imagen">
+<a href="imagenes/FO4P.jpeg" target="_blank">
+<img alt="Llave FO4P" src="imagenes/FO4P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/FO4P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> FO4P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadFO4P">Cantidad que desea comprar:</label>
+<input id="cantidadFO4P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadFO4P" onclick="agregarPedido('FO4P / FORD', 'cantidadFO4P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.25" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>VW-TP DIFERENTE</h2>
+<div class="imagen">
+<a href="imagenes/VW-TP DIFERENTE.jpeg" target="_blank">
+<img alt="Llave VW-TP DIFERENTE" src="imagenes/VW-TP DIFERENTE.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/VW-TP DIFERENTE.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> VW-TP DIFERENTE</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.25</p>
+</div>
+<label for="cantidadVW-TP DIFERENTE">Cantidad que desea comprar:</label>
+<input id="cantidadVW-TP DIFERENTE" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadVW-TP DIFERENTE" onclick="agregarPedido('VW-TP DIFERENTE', 'cantidadVW-TP DIFERENTE')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.00" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TP-DN9 / DATSUN-NISSAN-INFINITI</h2>
+<div class="imagen">
+<a href="imagenes/TP-DN9.jpeg" target="_blank">
+<img alt="Llave TP-DN9" src="imagenes/TP-DN9.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TP-DN9.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TP-DN9</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.00</p>
+</div>
+<label for="cantidadTP-DN9">Cantidad que desea comprar:</label>
+<input id="cantidadTP-DN9" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTP-DN9" onclick="agregarPedido('TP-DN9', 'cantidadTP-DN9')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="1.10" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>MAPA LISA</h2>
+<div class="imagen">
+<a href="imagenes/MAPA LISA.jpeg" target="_blank">
+<img alt="Llave MAPA LISA" src="imagenes/MAPA LISA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/MAPA LISA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> MAPA LISA</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $1.10</p>
+</div>
+<label for="cantidadMAPA LISA">Cantidad que desea comprar:</label>
+<input id="cantidadMAPA LISA" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadMAPA LISA" onclick="agregarPedido('MAPA LISA', 'cantidadMAPA LISA')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="1.10" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>MAPA CENTRO</h2>
+<div class="imagen">
+<a href="imagenes/MAPA CENTRO.jpeg" target="_blank">
+<img alt="Llave MAPA CENTRO" src="imagenes/MAPA CENTRO.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/MAPA CENTRO.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> MAPA CENTRO</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $1.10</p>
+</div>
+<label for="cantidadMAPA CENTRO">Cantidad que desea comprar:</label>
+<input id="cantidadMAPA CENTRO" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadMAPA CENTRO" onclick="agregarPedido('MAPA CENTRO', 'cantidadMAPA CENTRO')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="1.10" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>MAPA DERECHA</h2>
+<div class="imagen">
+<a href="imagenes/MAPA DERECHA.jpeg" target="_blank">
+<img alt="Llave MAPA DRECHA" src="imagenes/MAPA DERECHA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/MAPA DERECHA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> MAPA DERECHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $1.10</p>
+</div>
+<label for="cantidadMAPA DERECHA">Cantidad que desea comprar:</label>
+<input id="cantidadMAPA DERECHA" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadMAPA DERECHA" onclick="agregarPedido('MAPA DERECHA', 'cantidadMAPA DERECHA')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="1.10" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>MAPA IZQUIERDA</h2>
+<div class="imagen">
+<a href="imagenes/MAPA IZQUIERDA.jpeg" target="_blank">
+<img alt="Llave MAPA IZQUIERDA" src="imagenes/MAPA IZQUIERDA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/MAPA ZQUIERDA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> MAPA IZQUIERDA</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $1.10</p>
+</div>
+<label for="cantidadMAPA IZQUIERDA">Cantidad que desea comprar:</label>
+<input id="cantidadMAPA IZQUIERDA" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadMAPA IZQUIERDA" onclick="agregarPedido('MAPA IZQUIERDA', 'cantidadMAPA IZQUIERDA')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.60" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>MZ5 / MAZDA</h2>
+<div class="imagen">
+<a href="imagenes/MZ5 CONTRARIA.jpeg" target="_blank">
+<img alt="Llave MZ5" src="imagenes/MZ5 CONTRARIA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/MZ5 CONTRARIA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> MZ5</p>
+<p><strong>Stock:</strong> NO Disponible</p>
+<p><strong>Precio unitario:</strong> $0.60</p>
+</div>
+<label for="cantidadMZ5">Cantidad que desea comprar:</label>
+<input id="cantidadMZ5" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadMZ5" onclick="agregarPedido('MZ5', 'cantidadMZ5')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>OP7P CORSA</h2>
+<div class="imagen">
+<a href="imagenes/OP7P CORSA.jpeg" target="_blank">
+<img alt="Llave OP7P CORSA" src="imagenes/OP7P CORSA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/OP7P CORSA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> OP7P CORSA</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadOP7P CORSA">Cantidad que desea comprar:</label>
+<input id="cantidadOP7P CORSA" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadOP7P CORSA" onclick="agregarPedido('OP7P CORSA', 'cantidadOP7P CORSA')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>OP8P ASTRA</h2>
+<div class="imagen">
+<a href="imagenes/OP8P ASTRA.jpeg" target="_blank">
+<img alt="Llave OP8P ASTRA" src="imagenes/OP8P ASTRA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/OP8P ASTRA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> OP8P ASTRA</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadOP8P ASTRA">Cantidad que desea comprar:</label>
+<input id="cantidadOP8P ASTRA" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadOP8P ASTRA" onclick="agregarPedido('OP8P ASTRA', 'cantidadOP8P ASTRA')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.50" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>PEUGEOT 2 BOTONES</h2>
+<div class="imagen">
+<a href="imagenes/PEUGEOT 2 BOTONES.jpeg" target="_blank">
+<img alt="Llave PEUGEOT 2 BOTONES" src="imagenes/PEUGEOT 2 BOTONES.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/PEUGEOT 2 BOTONES.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> PEUGEOT 2 BOTONES</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.50</p>
+</div>
+<label for="cantidadPEUGEOT 2 BOTONES">Cantidad que desea comprar:</label>
+<input id="cantidadPEUGEOT 2 BOTONES" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadPEUGEOT 2 BOTONES" onclick="agregarPedido('PEUGEOT 2 BOTONES', 'cantidadPEUGEOT 2 BOTONES')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.50" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>PEUGEOT TP</h2>
+<div class="imagen">
+<a href="imagenes/PEUGEOT TP.jpeg" target="_blank">
+<img alt="Llave PEUGEOT TP" src="imagenes/PEUGEOT TP.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/PEUGEOT TP.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> PEUGEOT TP</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.50</p>
+</div>
+<label for="cantidadPEUGEOT TP">Cantidad que desea comprar:</label>
+<input id="cantidadPEUGEOT TP" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadPEUGEOT TP" onclick="agregarPedido('PEUGEOT TP', 'cantidadPEUGEOT TP')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.75" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>KI2P / KIA SORENTO CARNIVAL</h2>
+<div class="imagen">
+<a href="imagenes/KI2P.jpeg" target="_blank">
+<img alt="Llave KI2P" src="imagenes/KI2P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/KI2P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> KI2P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.75</p>
+</div>
+<label for="cantidadKI2P">Cantidad que desea comprar:</label>
+<input id="cantidadKI2P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadKI2P" onclick="agregarPedido('KI2P / KIA SORENTO CARNIVAL', 'cantidadKI2P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.75" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>KI2P ANCHA / KIA SORENTO CARNIVAL</h2>
+<div class="imagen">
+<a href="imagenes/KI2P ANCHA.jpeg" target="_blank">
+<img alt="Llave KI2P ANCHA" src="imagenes/KI2P ANCHA.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/KI2P ANCHA.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> KI2P ANCHA</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.75</p>
+</div>
+<label for="cantidadKI2P ANCHA">Cantidad que desea comprar:</label>
+<input id="cantidadKI2P ANCHA" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadKI2P ANCHA" onclick="agregarPedido('KI2P ANCHA / KIA SORENTO CARNIVAL', 'cantidadKI2P ANCHA')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.75" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>KI1P / KIA SPORTAGE PICANTO</h2>
+<div class="imagen">
+<a href="imagenes/KI1P.jpeg" target="_blank">
+<img alt="Llave KI1P" src="imagenes/KI1P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/KI1P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> KI1P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.75</p>
+</div>
+<label for="cantidadKI1P">Cantidad que desea comprar:</label>
+<input id="cantidadKI1P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadKI1P" onclick="agregarPedido('KI1P / KIA SPORTAGE PICANTO', 'cantidadKI1P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.25" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>SAIL TP</h2>
+<div class="imagen">
+<a href="imagenes/SAIL TP.jpeg" target="_blank">
+<img alt="Llave SAIL TP" src="imagenes/SAIL TP.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/SAIL TP.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> SAIL TP</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.25</p>
+</div>
+<label for="cantidadSAIL TP">Cantidad que desea comprar:</label>
+<input id="cantidadSAIL TP" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadSAIL TP" onclick="agregarPedido('SAIL TP', 'cantidadSAIL TP')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.60" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO11 / TOYOTA</h2>
+<div class="imagen">
+<a href="imagenes/TO11.jpeg" target="_blank">
+<img alt="Llave TO11" src="imagenes/TO11.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO11.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO11</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.60</p>
+</div>
+<label for="cantidadTO11">Cantidad que desea comprar:</label>
+<input id="cantidadTO11" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO11" onclick="agregarPedido('TO11 / TOYOTA', 'cantidadTO11')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO11P / TOYOTA</h2>
+<div class="imagen">
+<a href="imagenes/TO11P.jpeg" target="_blank">
+<img alt="Llave TO11P" src="imagenes/TO11P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO11P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO11P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadTO11P">Cantidad que desea comprar:</label>
+<input id="cantidadTO11P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO11P" onclick="agregarPedido('TO11P / TOYOTA', 'cantidadTO11P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.00" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO11 TP / TOYOTA</h2>
+<div class="imagen">
+<a href="imagenes/TO11 TP.jpeg" target="_blank">
+<img alt="Llave TO11 TP" src="imagenes/TO11 TP.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO11 TP.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO11 TP</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.00</p>
+</div>
+<label for="cantidadTO11 TP">Cantidad que desea comprar:</label>
+<input id="cantidadTO11 TP" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO11 TP" onclick="agregarPedido('TO11 TP / TOYOTA', 'cantidadTO11 TP')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.50" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO11P 2 BOTONES / TOYOTA</h2>
+<div class="imagen">
+<a href="imagenes/TO11P 2 BOTONES.jpeg" target="_blank">
+<img alt="Llave TO11P 2 BOTONES" src="imagenes/TO11P 2 BOTONES.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO11P 2 BOTONOES.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO11P 2 BOTONES</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.50</p>
+</div>
+<label for="cantidadTO11P 2 BOTONES">Cantidad que desea comprar:</label>
+<input id="cantidadTO11P 2 BOTONES" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO11P 2 BOTONES" onclick="agregarPedido('TO11P 2 BOTONES / TOYOTA', 'cantidadTO11P 2 BOTONES')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="2.50" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO11P 4 BOTONES / TOYOTA</h2>
+<div class="imagen">
+<a href="imagenes/TO11P 4 BOTONES.jpeg" target="_blank">
+<img alt="Llave TO11P 4 BOTONES" src="imagenes/TO11P 4 BOTONES.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO11P 4 BOTONES.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO11P 4 BOTONES</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $2.50</p>
+</div>
+<label for="cantidadTO11P 4 BOTONES">Cantidad que desea comprar:</label>
+<input id="cantidadTO11P 4 BOTONES" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO11P 4 BOTONES" onclick="agregarPedido('TO11P 4 BOTONES / TOYOTA', 'cantidadTO11P 4 BOTONES')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.60" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO5 / TOYOTA/SUZUKI/GM</h2>
+<div class="imagen">
+<a href="imagenes/TO5.jpeg" target="_blank">
+<img alt="Llave TO5" src="imagenes/TO5.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO5.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO5</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.60</p>
+</div>
+<label for="cantidadTO5">Cantidad que desea comprar:</label>
+<input id="cantidadTO5" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO5" onclick="agregarPedido('TO5 / TOYOTA/SUZUKI/GM', 'cantidadTO5')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.60" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO6 / TOYOTA COROLLA/DAIHATSU/LAND CRUISER</h2>
+<div class="imagen">
+<a href="imagenes/TO6.jpeg" target="_blank">
+<img alt="Llave TO6" src="imagenes/TO6.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO6.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO6</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.60</p>
+</div>
+<label for="cantidadTO6">Cantidad que desea comprar:</label>
+<input id="cantidadTO6" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO6" onclick="agregarPedido('TO6 / TOYOTA COROLLA/DAIHATSU/LAND CRUISER', 'cantidadTO6')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO5P / TOYOTA/SUZUKI/GM</h2>
+<div class="imagen">
+<a href="imagenes/TO5P.jpeg" target="_blank">
+<img alt="Llave TO5P" src="imagenes/TO5P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO5P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO5P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadTO5P">Cantidad que desea comprar:</label>
+<input id="cantidadTO5P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO5P" onclick="agregarPedido('TO5P / TOYOTA/SUZUKI/GM', 'cantidadTO5P')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>TO6P / TOYOTA/DAIHATSU/LAND CRUISER</h2>
+<div class="imagen">
+<a href="imagenes/TO6P.jpeg" target="_blank">
+<img alt="Llave TO6P" src="imagenes/TO6P.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/TO5P.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> TO6P</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadTO6P">Cantidad que desea comprar:</label>
+<input id="cantidadTO6P" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadTO6P" onclick="agregarPedido('TO6P / TOYOTA/DAIHATSU/LAND CRUISER', 'cantidadTO6P')">Agregar al pedido</button>
+</div>
+<div class="producto otros" data-precio="80.00" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>DISCO 60 DIENTES / HERMEX / TRUPER</h2>
+<div class="imagen">
+<a href="imagenes/DISCO 60 DIENTES.jpeg" target="_blank">
+<img alt="DISCO 60 DIENTES" src="imagenes/DISCO 60 DIENTES.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver el disco más grande?</strong><br/>
+<a href="imagenes/DISCO 60 DIENTES.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Linea: otros</p>
+<p><strong>Código:</strong> DISCO 60 DIENTES</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $80.00</p>
+</div>
+<label for="cantidadDISCO 60 DIENTES">Cantidad que desea comprar:</label>
+<input id="cantidadDISCO 60 DIENTES" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadDISCO 60 DIENTES" onclick="agregarPedido('DISCO 60 DIENTES / HERMEX / TRUPER', 'cantidadDISCO 60 DIENTES')">Agregar al pedido</button>
+</div>
+<div class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
+<h2>Productos en el carrito</h2>
+<div id="lista-carrito"></div>
+</div>
+<div <div="" class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
+<h2>Resumen del Pedido</h2>
+<div id="pedido"></div>
+<label for="nombre">Nombre:</label>
+<input id="nombre" placeholder="Tu nombre" type="text"/>
+<label for="ciudad">Ciudad:</label>
+<input id="ciudad" placeholder="Tu ciudad" type="text"/>
+<button onclick="enviarPedido()">Enviar por WhatsApp</button>
+</div>
+
+</script>
+<!-- FIN DEL ASISTENTE -->
+<script>
+function verificarCondicionesAntesDeEnviar() {
+    const tipoCompra = document.getElementById("tipoCompra").value;
+    const productos = document.querySelectorAll('.producto');
+    let totalHogar = 0;
+
+    productos.forEach(prod => {
+        const linea = prod.querySelector('.linea')?.innerText.trim();
+        const input = prod.querySelector('input[type="number"]');
+        const cantidad = parseInt(input?.value) || 0;
+
+        if (linea?.includes('Hogar')) {
+            totalHogar += cantidad;
+        }
+    });
+
+    if (tipoCompra === "0.20" && totalHogar < 1000) {
+        alert("Para acceder a la Promoción EL VECI ($0.20), debe seleccionar al menos 1000 llaves de la Línea Hogar.");
+        return;
+    }
+    if (tipoCompra === "0.186" && totalHogar < 10000) {
+        alert("Para acceder al precio por mayor ($0.186), debe seleccionar al menos 10,000 llaves de la Línea Hogar.");
+        return;
+    }
+
+    enviarPedidoPorWhatsApp(tipoCompra);
+}
+
+function enviarPedidoPorWhatsApp(tipoCompra) {
+    const nombre = document.getElementById("nombre").value.trim();
+    const ciudad = document.getElementById("ciudad").value.trim();
+
+    if (!nombre || !ciudad) {
+        alert("Por favor ingrese su nombre y ciudad antes de enviar el pedido.");
+        return;
+    }
+
+    const productos = document.querySelectorAll('.producto');
+    let mensaje = `👋 *¡Hola!*
+
+*Está generando una cotización con la marca “EL VECI”, su aliado, garantizando llaves que le brindan seguridad y calidad.*
+
+🧑 Cliente: ${nombre}
+📍 Ciudad: ${ciudad}
+
+🧾 *Detalle del pedido:*`;
+    let total = 0;
+    const precio = parseFloat(tipoCompra);
+
+productos.forEach(prod => {
+    const input = prod.querySelector('input[type="number"]');
+    const cantidad = parseInt(input?.value) || 0;
+    const nombreLlave = prod.querySelector('h2')?.innerText.trim();
+    const esAutomotriz = prod.classList.contains("linea-automotriz");
+
+    if (cantidad > 0) {
+        let precio = 0;
+        if (esAutomotriz) {
+            if (esAutomotriz) {
+    const precioData = prod.getAttribute("data-precio");
+    console.log("Detectado AUTOMOTRIZ:", nombreLlave, "→", precioData);
+
+    if (!precioData) {
+        alert(`La llave ${nombreLlave} no tiene precio asignado.`);
+        return;
+    }
+
+    precio = parseFloat(precioData);
+} else {
+    console.log("Detectado HOGAR:", nombreLlave, "→", tipoCompra);
+    precio = parseFloat(tipoCompra);
+}
+
+
+        const subtotal = cantidad * precio;
+        total += subtotal;
+
+        mensaje += `
+
+🔑 ${nombreLlave}
+Cantidad: ${cantidad}
+Precio: $${precio.toFixed(3)}
+Subtotal: $${subtotal.toFixed(2)}`;
+    }
+});
+
+
+    if (total === 0) {
+        alert("Por favor seleccione al menos una llave para enviar el pedido.");
+        return;
+    }
+
+    mensaje += `
+
+💵 *Total a pagar:* $${total.toFixed(2)}`;
+
+    const url = "https://wa.me/5930983889592?text=" + encodeURIComponent(mensaje);
+    window.open(url, "_blank");
+}
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelectorAll(".producto").forEach(function (producto) {
+        const stockParrafo = Array.from(producto.querySelectorAll("p"))
+            .find(p => p.textContent.includes("Stock:"));
+
+        const esSinStock = stockParrafo && stockParrafo.textContent.toUpperCase().includes("NO DISPONIBLE");
+
+        if (esSinStock) {
+            const input = producto.querySelector("input[type='number']");
+            const boton = producto.querySelector("button");
+
+            if (input) {
+                input.disabled = true;
+                input.placeholder = "No disponible";
+            }
+
+            if (boton) {
+                boton.disabled = true;
+                boton.style.opacity = "0.5";
+                boton.style.cursor = "not-allowed";
+                boton.style.backgroundColor = "#cccccc";
+                boton.textContent = "Producto sin stock";
+
+                // Agregar mensaje de texto
+                const mensaje = document.createElement("p");
+                mensaje.textContent = "🚫 ¡Ups! Esta llave no está disponible por ahora.";
+                mensaje.style.color = "red";
+                mensaje.style.marginTop = "10px";
+                producto.appendChild(mensaje);
+            }
+        }
+    });
+});
+</script>
+<script>
+  function filtrarPorLinea(linea) {
+    const productos = document.querySelectorAll('.producto');
+
+    productos.forEach(producto => {
+      if (linea === 'todas') {
+        producto.style.display = 'block';
+      } else {
+        if (producto.classList.contains(linea)) {
+          producto.style.display = 'block';
+        } else {
+          producto.style.display = 'none';
+        }
+      }
+    });
+  }
+<script>
+<script>
+function detectarEnter(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    filtrarLlaves();
+  }
+}
+
+function filtrarLlaves() {
+  const input = document.getElementById("buscador").value.toLowerCase().trim();
+  const verTodoBtn = document.getElementById("verTodoBtn");
+  if (verTodoBtn) {
+    verTodoBtn.style.display = input.length > 0 ? "inline-block" : "none";
+  }
+
+  const productos = document.querySelectorAll(".producto");
+  let encontrado = false;
+
+  productos.forEach(producto => {
+    const codigoParrafo = Array.from(producto.querySelectorAll("p")).find(p =>
+      p.innerText.toLowerCase().startsWith("código:")
+    );
+
+    if (codigoParrafo) {
+      const codigo = codigoParrafo.innerText.toLowerCase().replace("código:", "").trim();
+
+      if (codigo === input) {
+        producto.style.display = "block";
+        encontrado = true;
+
+        // Hacer scroll al producto
+        setTimeout(() => {
+          producto.scrollIntoView({ behavior: "smooth", block: "center" });
+          producto.classList.add("resaltado");
+          setTimeout(() => {
+            producto.classList.remove("resaltado");
+          }, 2000);
+        }, 200);
+      } else {
+        producto.style.display = "none";
+      }
+    } else {
+      producto.style.display = "none";
+    }
+  });
+
+  if (!encontrado && input.length > 0) {
+    productos.forEach(p => p.style.display = "none");
+  }
+}
+</script>
+<script>
+function detectarEnter(e) {
+  if (e.key === "Enter") {
+    filtrarLlaves();
+  }
+}
+
+function filtrarLlaves() {
+  const input = document.getElementById("buscador").value.toLowerCase().trim();
+  const verTodoBtn = document.getElementById("verTodoBtn");
+  verTodoBtn.style.display = input.length > 0 ? "inline-block" : "none";
+
+  const productos = document.querySelectorAll(".producto");
+  productos.forEach((producto, index) => {
+    if (index === 0 || index === 1) return;
+
+    const parrafos = producto.querySelectorAll("p");
+    let codigo = "";
+
+    parrafos.forEach(p => {
+      if (p.innerText.toLowerCase().startsWith("código:")) {
+        codigo = p.innerText.toLowerCase().replace("código:", "").trim();
+      }
+    });
+
+    producto.style.display = codigo === input ? "block" : "none";
+  });
+}
+
+function resetearFiltro() {
+  document.querySelectorAll(".producto").forEach((producto, index) => {
+    if (index === 0 || index === 1) return;
+    producto.style.display = "block";
+  });
+  document.getElementById("verTodoBtn").style.display = "none";
+}
+
+function filtrarPorLinea(clase) {
+  const productos = document.querySelectorAll(".producto");
+  productos.forEach((producto, index) => {
+    if (index === 0 || index === 1) return;
+
+    if (clase === "todas") {
+      producto.style.display = "block";
+    } else {
+      producto.style.display = producto.classList.contains(clase) ? "block" : "none";
+    }
+  });
+}
+</script>
+<script>
+let carrito = [];
+
+function agregarPedido(nombreProducto, inputId) {
+  const input = document.getElementById(inputId);
+  const cantidad = parseInt(input.value);
+  if (isNaN(cantidad) || cantidad <= 0) {
+    alert("Por favor, ingrese una cantidad válida.");
+    return;
+  }
+
+  const productoElemento = input.closest(".producto");
+  const esAutomotriz = productoElemento.classList.contains("linea-automotriz");
+  let precioUnitario = 0;
+
+  if (esAutomotriz) {
+    const precioData = productoElemento.getAttribute("data-precio");
+    if (!precioData) {
+      alert("Error: La llave automotriz no tiene precio asignado.");
+      return;
+    }
+    precioUnitario = parseFloat(precioData);
+  } else {
+    const tipoCompra = document.getElementById("tipoCompra").value;
+    if (!tipoCompra) {
+      alert("Por favor seleccione un tipo de compra.");
+      return;
+    }
+    precioUnitario = parseFloat(tipoCompra);
+  }
+
+  carrito.push({ codigo: nombreProducto, cantidad: cantidad, precio: precioUnitario });
+  actualizarListaCarrito();
+  actualizarResumen();
+
+  const boton = document.getElementById('btn_' + inputId);
+  if (boton) {
+    boton.innerText = 'Agregado';
+    boton.classList.add('boton-agregado');
+    boton.disabled = true;
+    boton.style.backgroundColor = "#28a745";
+    boton.style.color = "white";
+  }
+}
+
+function actualizarListaCarrito() {
+  const contenedor = document.getElementById("lista-carrito");
+  contenedor.innerHTML = "";
+
+  carrito.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "carrito-item";
+    div.innerHTML = `
+      <strong>${item.codigo}</strong><br/>
+      Cantidad: <span id="cantidadTexto${index}">${item.cantidad}</span> llaves<br/>
+      Precio unitario: $${item.precio.toFixed(3)}<br/>
+      Subtotal: $${(item.precio * item.cantidad).toFixed(2)}<br/>
+      <div id="edicion${index}" style="display:none; margin-top:5px;">
+        <input type="number" id="editCantidad${index}" value="${item.cantidad}" style="width:60px;" />
+        <button onclick="guardarCantidad(${index})">Guardar</button>
+      </div>
+      <div class="carrito-item-buttons" style="margin-top:8px;">
+        <button onclick="mostrarEdicion(${index})">Editar</button>
+        <button onclick="eliminarDelCarrito(${index})">Eliminar</button>
+      </div>
+    `;
+    contenedor.appendChild(div);
+  });
+}
+
+function mostrarEdicion(index) {
+  document.getElementById("edicion" + index).style.display = "block";
+}
+
+function guardarCantidad(index) {
+  const nuevaCantidad = parseInt(document.getElementById("editCantidad" + index).value);
+  if (!isNaN(nuevaCantidad) && nuevaCantidad > 0) {
+    carrito[index].cantidad = nuevaCantidad;
+    actualizarListaCarrito();
+    actualizarResumen();
+  } else {
+    alert("Ingrese una cantidad válida.");
+  }
+}
+
+function eliminarDelCarrito(index) {
+  carrito.splice(index, 1);
+  actualizarListaCarrito();
+  actualizarResumen();
+}
+
+function actualizarResumen() {
+  const resumen = document.getElementById("pedido");
+
+  let totalLlaves = 0;
+  let totalDinero = 0;
+  let texto = "";
+
+  carrito.forEach(item => {
+    const cantidad = parseInt(item.cantidad);
+    const subtotal = cantidad * item.precio;
+    totalLlaves += cantidad;
+    totalDinero += subtotal;
+    texto += `${item.codigo} - ${cantidad} llaves = $${subtotal.toFixed(2)}\n`;
+  });
+
+  resumen.innerText = texto + `\nTotal de llaves: ${totalLlaves}\nTotal en USD: $${totalDinero.toFixed(2)}`;
+}
+
+function enviarPedido() {
+  const nombre = document.getElementById('nombre').value.trim();
+  const ciudad = document.getElementById('ciudad').value.trim();
+
+  if (!nombre || !ciudad) {
+    alert("Por favor ingrese su nombre y ciudad antes de enviar el pedido.");
+    return;
+  }
+
+  let totalLlaves = 0;
+  let totalDinero = 0;
+  let resumen = "";
+
+  carrito.forEach(item => {
+    const cantidad = parseInt(item.cantidad);
+    const subtotal = cantidad * item.precio;
+    totalLlaves += cantidad;
+    totalDinero += subtotal;
+    resumen += `${item.codigo} - ${cantidad} llaves = $${subtotal.toFixed(2)}\n`;
+  });
+
+  if (totalLlaves === 0) {
+    alert("Debe agregar al menos una llave al carrito.");
+    return;
+  }
+
+  const mensaje =
+    "Cotización EL VECI\n\n" +
+    "Cliente:\n" +
+    "Nombre: " + nombre + "\n" +
+    "Ciudad: " + ciudad + "\n\n" +
+    resumen + "\n" +
+    "Total de llaves: " + totalLlaves + "\n" +
+    "Total a pagar: $" + totalDinero.toFixed(2) + "\n\n" +
+    "Está generando una cotización con la marca ‘EL VECI’, su aliado, garantizando llaves que le brindan seguridad y calidad.";
+
+  const mensajeCodificado = encodeURIComponent(mensaje);
+  const url = "https://wa.me/5930983889592?text=" + mensajeCodificado;
+  window.open(url, "_blank");
+}
+</script>
+<script>
+document.getElementById("enviarPedido").addEventListener("click", function (e) {
+  const tipoCompra = document.querySelector('input[name="tipo-compra"]:checked');
+  const productosHogar = document.querySelectorAll(".producto.linea-hogar");
+  let cantidadHogar = 0;
+  let contieneLineaHogar = false;
+
+  productosHogar.forEach(prod => {
+    const input = prod.querySelector("input.cantidad");
+    const cantidad = parseInt(input?.value || "0");
+    if (cantidad > 0) {
+      cantidadHogar += cantidad;
+      contieneLineaHogar = true;
+    }
+  });
+
+  if (contieneLineaHogar) {
+    if (!tipoCompra) {
+      alert("Por favor seleccione primero el tipo de compra para la Línea de Hogar.");
+      e.preventDefault();
+      return;
+    }
+
+    const valor = tipoCompra.value;
+
+    if (valor === "promocion" && cantidadHogar < 1000) {
+      alert("Para aplicar la Promoción El Veci debe comprar mínimo 1000 llaves de la Línea de Hogar.");
+      e.preventDefault();
+      return;
+    }
+
+    if (valor === "mayor" && cantidadHogar < 10000) {
+      alert("Para aplicar la compra al por mayor debe comprar mínimo 10.000 llaves de la Línea de Hogar.");
+      e.preventDefault();
+      return;
+    }
+
+    // Al por menor se permite sin restricciones
+  }
+});
+</script>
+<script>
+// Filtrar por línea
+function filtrarPorLinea(linea) {
+  const productos = document.querySelectorAll('.producto');
+  productos.forEach(producto => {
+    if (linea === 'todas' || producto.classList.contains(linea)) {
+      producto.style.display = 'block';
+    } else {
+      producto.style.display = 'none';
+    }
+  });
+}
+
+// Buscar por código
+function detectarEnter(event) {
+  if (event.key === "Enter") {
+    filtrarLlaves();
+  }
+}
+
+function filtrarLlaves() {
+  const input = document.getElementById("buscador").value.toLowerCase().trim();
+  const verTodoBtn = document.getElementById("verTodoBtn");
+  verTodoBtn.style.display = input.length > 0 ? "inline-block" : "none";
+
+  const productos = document.querySelectorAll(".producto");
+  productos.forEach(producto => {
+    const codigoParrafo = Array.from(producto.querySelectorAll("p")).find(p =>
+      p.innerText.toLowerCase().startsWith("código:")
+    );
+    if (codigoParrafo) {
+      const codigo = codigoParrafo.innerText.toLowerCase().replace("código:", "").trim();
+      producto.style.display = codigo === input ? "block" : "none";
+    } else {
+      producto.style.display = "none";
+    }
+  });
+}
+
+function resetearFiltro() {
+  document.querySelectorAll(".producto").forEach(producto => {
+    producto.style.display = "block";
+  });
+  const verTodoBtn = document.getElementById("verTodoBtn");
+  if (verTodoBtn) verTodoBtn.style.display = "none";
+}
+
+// Agregar al carrito
+let carrito = [];
+
+function agregarPedido(nombreProducto, inputId) {
+  const input = document.getElementById(inputId);
+  const cantidad = parseInt(input.value);
+  if (isNaN(cantidad) || cantidad <= 0) {
+    alert("Por favor, ingrese una cantidad válida.");
+    return;
+  }
+
+  const productoElemento = input.closest(".producto");
+  const esAutomotriz = productoElemento.classList.contains("linea-automotriz");
+  let precioUnitario = 0;
+
+  if (esAutomotriz) {
+    const precioData = productoElemento.getAttribute("data-precio");
+    if (!precioData) {
+      alert("Error: La llave automotriz no tiene precio asignado.");
+      return;
+    }
+    precioUnitario = parseFloat(precioData);
+  } else {
+    const tipoCompra = document.getElementById("tipoCompra").value;
+    if (!tipoCompra) {
+      alert("Por favor seleccione un tipo de compra.");
+      return;
+    }
+    precioUnitario = parseFloat(tipoCompra);
+  }
+
+  carrito.push({ codigo: nombreProducto, cantidad: cantidad, precio: precioUnitario });
+  actualizarListaCarrito();
+  actualizarResumen();
+
+  const boton = document.getElementById('btn_' + inputId);
+  if (boton) {
+    boton.innerText = 'Agregado';
+    boton.classList.add('boton-agregado');
+    boton.disabled = true;
+  }
+}
+
+function actualizarListaCarrito() {
+  const contenedor = document.getElementById("lista-carrito");
+  if (!contenedor) return;
+
+  contenedor.innerHTML = "";
+  carrito.forEach((item, index) => {
+    const div = document.createElement("div");
+    div.className = "carrito-item";
+    div.innerHTML = `
+      <strong>${item.codigo}</strong><br/>
+      Cantidad: ${item.cantidad}<br/>
+      Precio unitario: $${item.precio.toFixed(3)}<br/>
+      Subtotal: $${(item.precio * item.cantidad).toFixed(2)}<br/>
+    `;
+    contenedor.appendChild(div);
+  });
+}
+
+function actualizarResumen() {
+  const resumen = document.getElementById("pedido");
+  if (!resumen) return;
+
+  let totalLlaves = 0;
+  let totalDinero = 0;
+  let texto = "";
+
+  carrito.forEach(item => {
+    const subtotal = item.cantidad * item.precio;
+    totalLlaves += item.cantidad;
+    totalDinero += subtotal;
+    texto += `${item.codigo} - ${item.cantidad} llaves = $${subtotal.toFixed(2)}\n`;
+  });
+
+  resumen.innerText = texto + `\nTotal de llaves: ${totalLlaves}\nTotal en USD: $${totalDinero.toFixed(2)}`;
+}
+
+function enviarPedido() {
+  const nombre = document.getElementById('nombre').value.trim();
+  const ciudad = document.getElementById('ciudad').value.trim();
+
+  if (!nombre || !ciudad) {
+    alert("Por favor ingrese su nombre y ciudad antes de enviar el pedido.");
+    return;
+  }
+
+  if (carrito.length === 0) {
+    alert("Debe agregar al menos una llave al carrito.");
+    return;
+  }
+
+  let totalLlaves = 0;
+  let totalDinero = 0;
+  let resumen = "";
+
+  carrito.forEach(item => {
+    const subtotal = item.cantidad * item.precio;
+    totalLlaves += item.cantidad;
+    totalDinero += subtotal;
+    resumen += `${item.codigo} - ${item.cantidad} llaves = $${subtotal.toFixed(2)}\n`;
+  });
+
+  const mensaje = 
+    "Cotización EL VECI\n\n" +
+    "Cliente:\n" +
+    "Nombre: " + nombre + "\n" +
+    "Ciudad: " + ciudad + "\n\n" +
+    resumen + "\n" +
+    "Total de llaves: " + totalLlaves + "\n" +
+    "Total a pagar: $" + totalDinero.toFixed(2) + "\n\n" +
+    "Está generando una cotización con la marca ‘EL VECI’, su aliado, garantizando llaves que le brindan seguridad y calidad.";
+
+  const url = "https://wa.me/5930983889592?text=" + encodeURIComponent(mensaje);
+  window.open(url, "_blank");
+}
+</script>
+<script>
+function agregarPedido(nombreProducto, inputId) {
+  const input = document.getElementById(inputId);
+  const cantidad = parseInt(input.value);
+  if (isNaN(cantidad) || cantidad <= 0) {
+    alert("Por favor, ingrese una cantidad válida.");
+    return;
+  }
+
+  const productoElemento = input.closest(".producto");
+  const esAutomotriz = productoElemento.classList.contains("linea-automotriz");
+  const esOtros = productoElemento.classList.contains("otros");
+  let precioUnitario = 0;
+
+  if (esAutomotriz || esOtros) {
+    const precioData = productoElemento.getAttribute("data-precio");
+    if (!precioData) {
+      alert("Este producto no tiene precio asignado.");
+      return;
+    }
+    precioUnitario = parseFloat(precioData);
+  } else {
+    const tipoCompra = document.getElementById("tipoCompra").value;
+    if (!tipoCompra) {
+      alert("Por favor seleccione un tipo de compra.");
+      return;
+    }
+    precioUnitario = parseFloat(tipoCompra);
+  }
+
+  carrito.push({ codigo: nombreProducto, cantidad: cantidad, precio: precioUnitario });
+  actualizarListaCarrito();
+  actualizarResumen();
+
+  const boton = document.getElementById('btn_' + inputId);
+  if (boton) {
+    boton.innerText = 'Agregado';
+    boton.classList.add('boton-agregado');
+    boton.disabled = true;
+  }
+}
+</script>
+<style>
+#navegacion-flotante {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+#navegacion-flotante button {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0px 2px 8px rgba(0,0,0,0.25);
+  transition: background-color 0.2s ease;
+}
+#navegacion-flotante button:hover {
+  background-color: #0056b3;
+}
+@media (max-width: 600px) {
+  #navegacion-flotante button {
+    font-size: 14px;
+    padding: 10px 14px;
+  }
+}
+</style>
+<div id="navegacion-flotante">
+
+</div>
+<div id="botonesFlotantes">
+<button onclick="mostrarGuia()" title="Guía de uso">❓🔑</button>
+<button onclick="document.getElementById('buscador').focus()" title="Buscar">🔍</button>
+<button onclick="document.getElementById('pedido').scrollIntoView({ behavior: 'smooth' })" title="Resumen">🛒</button>
+</div>
+<script>
+function mostrarGuia() {
+  const mensaje = document.createElement('div');
+  mensaje.innerHTML = `
+    <div style="text-align: right;">
+      <button onclick="this.parentElement.parentElement.remove()" style="background:red;color:white;border:none;border-radius:6px;padding:4px 8px;cursor:pointer;font-weight:bold;">✖</button>
+    </div>
+    <strong>Guía de uso del catálogo</strong><br>
+    🟢 <strong>Paso 1:</strong> Seleccione el tipo de compra:<br>
+    • Al por menor<br>
+    • Promoción “El Veci” (mínimo 1000 llaves)<br>
+    • Al por mayor (mínimo 10.000 llaves)<br><br>
+    ⚠️ Estos precios aplican solo para llaves de la Línea de Hogar.<br><br>
+    🚗 Las llaves de la Línea Automotriz tienen un precio único por unidad.<br><br>
+    ✏️ <strong>Paso 2:</strong> Busque el código o revise la llave deseada.<br>
+    📦 <strong>Paso 3:</strong> Ingrese la cantidad y presione “Agregar”.<br>
+    📝 <strong>Paso 4:</strong> Complete su nombre y ciudad.<br>
+    📲 <strong>Paso 5:</strong> Envíe su pedido por WhatsApp.
+  `;
+  mensaje.style.position = 'fixed';
+  mensaje.style.top = '80px';
+  mensaje.style.right = '10px';
+  mensaje.style.backgroundColor = '#ffffff';
+  mensaje.style.color = 'black';
+  mensaje.style.padding = '14px';
+  mensaje.style.borderRadius = '10px';
+  mensaje.style.boxShadow = '0 2px 12px rgba(0,0,0,0.3)';
+  mensaje.style.fontSize = '0.9rem';
+  mensaje.style.lineHeight = '1.4';
+  mensaje.style.maxWidth = '300px';
+  mensaje.style.zIndex = '10000';
+  document.body.appendChild(mensaje);
+}
+</script>
+</body>
+</html>
