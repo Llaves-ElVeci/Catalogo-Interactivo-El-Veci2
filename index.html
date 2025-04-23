@@ -2900,5 +2900,14 @@ function mostrarGuia() {
   document.body.appendChild(mensaje);
 }
 </script>
+<script>
+  const version = new Date().toISOString().slice(0,10).replace(/-/g, '');
+  document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
+    link.href += `?v=${version}`;
+  });
+  document.querySelectorAll('script[src]').forEach(script => {
+    script.src += `?v=${version}`;
+  });
+</script>
 </body>
 </html>
