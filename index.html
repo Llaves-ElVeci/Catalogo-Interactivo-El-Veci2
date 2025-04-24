@@ -2999,7 +2999,8 @@ function agregarPedido(nombreProducto, inputId) {
   } else {
     const tipoCompra = document.getElementById("tipoCompra").value;
     if (!tipoCompra) {
-      alert("Por favor seleccione un tipo de compra.");
+      alert("Por favor, seleccione el tipo de compra para continuar. Debe elegir entre: Al por menor (Desde 1 llave a $0.23), Promoción 'El Veci' (mínimo 1000 llaves $0.20) o Al por mayor (mínimo 10.000 llaves $0.186), según corresponda a su pedido."
+  );
       return;
     }
     precioUnitario = parseFloat(tipoCompra);
