@@ -143,24 +143,7 @@
 
 </head>
 <body>
-<div id="bannerRotativo"  style="margin: 0 auto; text-align: center; max-width: 600px;"; margin: auto; text-align: center;"> 
-  <img id="bannerImagen" src="imagenes/banner1.jpg" style="width: 100%; max-height: 500px; object-fit: contain; border-radius: 16px;" />
 </div>
-
-<script>
-  const imagenesBanner = [
-    "imagenes/logo1.jpg",
-    "imagenes/logo2.jpeg",
-    "imagenes/logo3.jpeg"
-  ];
-
-  let indiceBanner = 0;
-  setInterval(() => {
-    indiceBanner = (indiceBanner + 1) % imagenesBanner.length;
-    document.getElementById("bannerImagen").src = imagenesBanner[indiceBanner];
-  }, 4000); // cambia cada 4 segundos
-</script>
-
 <div <div="" class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
 <h2 style="text-align:center;">Estimado cliente</h2>
 <p style="text-align:center; font-size:1rem;">
@@ -2136,6 +2119,27 @@
 <button class="boton-agregar" id="btn_cantidadTO6" onclick="agregarPedido('TO6 / TOYOTA COROLLA/DAIHATSU/LAND CRUISER', 'cantidadTO6')">Agregar al pedido</button>
 </div>
 <div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
+<h2>IZU3</h2>
+<div class="imagen">
+<a href="imagenes/IZU3.jpeg" target="_blank">
+<img alt="Llave IZU3" src="imagenes/IZU3.jpeg" style="width: 100%; height: auto; object-fit: contain; transform: scale(1.3); margin-top: 30px; margin-bottom: 30px;"/>
+</a>
+</div>
+<p><strong>¿Quieres ver la llave más grande?</strong><br/>
+<a href="imagenes/IZU3.jpeg" style="color:#25d366; text-decoration: underline;" target="_blank">Dale clic aquí</a>
+</p>
+<a href="#" onclick="filtrarPorLinea('todas')" style="color:#25d366;">⬅️ Regresar al inicio</a>
+<div class="detalles">
+<p class="linea" style="display:none;">Línea: Automotriz</p>
+<p><strong>Código:</strong> IZU3</p>
+<p><strong>Stock:</strong> Disponible</p>
+<p><strong>Precio unitario:</strong> $0.65</p>
+</div>
+<label for="cantidadIZU3">Cantidad que desea comprar:</label>
+<input id="cantidadIZU3" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_cantidadIZU3" onclick="agregarPedido('IZU3', 'cantidadIZU3')">Agregar al pedido</button>
+</div>
+<div class="producto linea-automotriz" data-precio="0.65" style="margin: 0 auto; text-align: center; max-width: 600px;">
 <h2>TO5P / TOYOTA/SUZUKI/GM</h2>
 <div class="imagen">
 <a href="imagenes/TO5P.jpeg" target="_blank">
@@ -2373,9 +2377,6 @@ Por favor bríndeme una cotización. Gracias." target="_blank">
     </a>
   </div>
 </div>
-<div class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
-<h2>Productos en el carrito</h2>
-<div id="lista-carrito"></div>
 <!-- MÉTODOS DE PAGO ACEPTADOS -->
 <div class="producto" style="margin: 0 auto; text-align: center; max-width: 600px; border: 2px dashed #28a745; padding: 20px; border-radius: 12px; background: #f8fff5;">
   <h2 style="color: #28a745;">💳 Métodos de Pago Aceptados</h2>
@@ -2425,6 +2426,10 @@ Por favor bríndeme una cotización. Gracias." target="_blank">
     Para más información sobre la entrega o cobertura exacta, no dude en contactarnos por WhatsApp.
   </p>
 </div>
+</div>
+<div class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
+<h2>Productos en el carrito</h2>
+<div id="lista-carrito">
 </div>
 <div <div="" class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
 <h2>Resumen del Pedido</h2>
@@ -2644,15 +2649,8 @@ function agregarPedido(nombreProducto, inputId) {
       return;
     }
     precioUnitario = parseFloat(precioData);
-  } else {
-    const tipoCompra = document.getElementById("tipoCompra").value;
-    if (!tipoCompra) {
-      alert("Por favor seleccione un tipo de compra.");
-      return;
-    }
-    precioUnitario = parseFloat(tipoCompra);
-  }
 
+  }
   carrito.push({ codigo: nombreProducto, cantidad: cantidad, precio: precioUnitario });
   actualizarListaCarrito();
   actualizarResumen();
@@ -2880,15 +2878,19 @@ function agregarPedido(nombreProducto, inputId) {
       return;
     }
     precioUnitario = parseFloat(precioData);
-  } else {
-    const tipoCompra = document.getElementById("tipoCompra").value;
-    if (!tipoCompra) {
-      alert("Por favor seleccione un tipo de compra.");
-      return;
-    }
-    precioUnitario = parseFloat(tipoCompra);
+ } else {
+  const tipoCompra = document.getElementById("tipoCompra").value;
+  if (!tipoCompra) {
+    alert(
+      "⚠️ Para continuar, seleccione el tipo de compra (solo aplica a llaves de la Línea de Hogar)(Sección al inico del catálogo):\n" +
+      "• Al por menor (desde 1 llave $0.23 ctvs)\n" +
+      "• Promoción “El Veci” (mínimo 1000 llaves $0.20 ctvs)\n" +
+      "• Al por mayor (mínimo 10.000 llaves $0.186 ctvs)"
+    );
+    return;
   }
-
+  precioUnitario = parseFloat(tipoCompra);
+}
   carrito.push({ codigo: nombreProducto, cantidad: cantidad, precio: precioUnitario });
   actualizarListaCarrito();
   actualizarResumen();
@@ -2991,21 +2993,26 @@ function agregarPedido(nombreProducto, inputId) {
   const esOtros = productoElemento.classList.contains("otros");
   let precioUnitario = 0;
 
-  if (esAutomotriz || esOtros) {
-    const precioData = productoElemento.getAttribute("data-precio");
-    if (!precioData) {
-      alert("Este producto no tiene precio asignado.");
-      return;
-    }
-    precioUnitario = parseFloat(precioData);
-  } else {
-    const tipoCompra = document.getElementById("tipoCompra").value;
-    if (!tipoCompra) {
-      alert("Por favor seleccione un tipo de compra.");
-      return;
-    }
-    precioUnitario = parseFloat(tipoCompra);
+if (esAutomotriz || esOtros) {
+  const precioData = productoElemento.getAttribute("data-precio");
+  if (!precioData) {
+    alert("Este producto no tiene precio asignado.");
+    return;
   }
+  precioUnitario = parseFloat(precioData);
+} else {
+  const tipoCompra = document.getElementById("tipoCompra").value;
+  if (!tipoCompra) {
+    alert(
+      "⚠️ Para continuar, seleccione el tipo de compra (solo aplica a llaves de la Línea de Hogar)(Sección al inicio del catálogo):\n" +
+      "• Al por menor (desde 1 llave $0.23 ctvs)\n" +
+      "• Promoción “El Veci” (mínimo 1000 llaves $0.20 ctvs)\n" +
+      "• Al por mayor (mínimo 10.000 llaves $0.186 ctvs)"
+    );
+    return;
+  }
+  precioUnitario = parseFloat(tipoCompra);
+}
 
   carrito.push({ codigo: nombreProducto, cantidad: cantidad, precio: precioUnitario });
   actualizarListaCarrito();
@@ -3068,7 +3075,7 @@ function mostrarGuia() {
     <strong>Guía de uso del catálogo</strong><br>
     🟢 <strong>Paso 1:</strong> Seleccione el tipo de compra:<br>
     • Al por menor (desde 1 llave $0.23 ctvs.)<br>
-    • Promoción “El Veci” (mínimo 1000 llaves $0.20ctvs.))<br>
+    • Promoción “El Veci” (mínimo 1000 llaves $0.20ctvs.)<br>
     • Al por mayor (mínimo 10.000 llaves $0.186ctvs.)<br><br>
     ⚠️ Estos precios aplican solo para llaves de la Línea de Hogar.<br><br>
     🚗 Las llaves de la Línea Automotriz y otros productos tienen un precio único por unidad.<br><br>
