@@ -3102,38 +3102,6 @@ function mostrarGuia() {
 }
 </script>
 <script>
-  const version = new Date().toISOString().slice(0,10).replace(/-/g, '');
-  document.querySelectorAll('link[rel="stylesheet"]').forEach(link => {
-    link.href += `?v=${version}`;
-  });
-  document.querySelectorAll('script[src]').forEach(script => {
-    script.src += `?v=${version}`;
-  });
-</script>
-<script>
-function detectarEnter(event) {
-  if (event.key === "Enter") {
-    const codigo = document.getElementById("buscador").value.trim().toUpperCase();
-    const productos = document.querySelectorAll(".producto");
-    let encontrado = false;
-
-    productos.forEach(producto => {
-      const codigoTexto = producto.innerText.toUpperCase();
-      if (codigoTexto.includes("CÓDIGO: " + codigo)) {
-        producto.scrollIntoView({ behavior: "smooth", block: "start" });
-        producto.classList.add("resaltado");
-        setTimeout(() => producto.classList.remove("resaltado"), 2000);
-        encontrado = true;
-      }
-    });
-
-    if (!encontrado) {
-      alert("Código no encontrado. Intente con otro.");
-    }
-  }
-}
-</script>
-<script>
 document.querySelectorAll(".boton-agregar").forEach(boton => {
   const originalTexto = boton.innerText;
   boton.addEventListener("click", () => {
@@ -3145,6 +3113,7 @@ document.querySelectorAll(".boton-agregar").forEach(boton => {
   });
 });
 </script>
+</style>
 
 </body>
 </html>
