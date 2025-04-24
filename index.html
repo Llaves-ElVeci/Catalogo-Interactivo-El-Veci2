@@ -2983,12 +2983,8 @@ function agregarPedido(nombreProducto, inputId) {
   } else {
     const tipoCompra = document.getElementById("tipoCompra").value;
     if (!tipoCompra) {
-      alert("🚫Para continuar, seleccione el tipo de compra (solo aplica a llaves de la Línea de Hogar):
-• Al por menor (desde 1 llave 🔑 $0.23)
-• Promoción “El Veci” (mínimo 1000 llaves 🔑 $0.20)
-• Al por mayor (mínimo 10.000 llaves 🔑 $0.186)
-  "
-  );
+      alert("Para continuar, seleccione el tipo de compra (solo aplica a llaves de la Línea de Hogar), Al por menor (desde 1 llave $0.23), Promoción “El Veci” (mínimo 1000 llaves
+$0.20), Al por mayor (mínimo 10.000 llaves $0.186)");
       return;
     }
     precioUnitario = parseFloat(tipoCompra);
