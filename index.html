@@ -140,6 +140,29 @@
     img.src = img.src.split('?')[0] + '?v=' + version;
   });
 </script>
+<style>
+#sugerencias {
+  position: absolute;
+  background: white;
+  border: 1px solid #ccc;
+  max-height: 200px;
+  overflow-y: auto;
+  width: 100%;
+  z-index: 1000;
+  border-radius: 8px;
+}
+.sugerencia {
+  padding: 10px;
+  cursor: pointer;
+}
+.sugerencia:hover, .sugerencia-activa {
+  background-color: #e6f7ff;
+}
+#buscador {
+  position: relative;
+  z-index: 1001;
+}
+</style>
 
 </head>
 <body>
@@ -167,7 +190,8 @@
 </div>
 <div class="producto" style="margin: 0 auto; text-align: center; max-width: 600px;">
 <h2>CATÁLOGO INTERACTIVO "EL VECI"<div style="text-align:center;"><p style="font-family: 'Georgia', serif; font-size: 1.15rem; text-align: center; color: #333; margin: 15px 0;">Usted puede seleccionar el código de la llave que necesite, indicar la cantidad requerida y agregarla al carrito. Al finalizar, tendrá la opción de enviar su pedido por WhatsApp para recibir una cotización formal de manera directa.</p><img src="imagenes/logo_el_veci.png" style="max-width:300px;margin:20px 0;"/></div> </h2>
-<p style="font-size: 1.05rem; font-weight: bold; margin-top: 10px; text-align: center;">🔑 Si usted ya conoce el código de la llave que necesita, puede escribirlo a continuación y generar su lista de pedido. En caso de no tener el código, también puede explorar todo nuestro catálogo con tranquilidad.</p><input id="buscador" onkeypress="detectarEnter(event)" placeholder="Buscar por código..." type="text"/>
+<p style="font-size: 1.05rem; font-weight: bold; margin-top: 10px; text-align: center;">🔑 Si usted ya conoce el código de la llave que necesita, puede escribirlo a continuación y generar su lista de pedido. En caso de no tener el código, también puede explorar todo nuestro catálogo con tranquilidad.</p><div><div style="position: relative; max-width: 600px; margin: 0 auto;"><input id="buscador" onkeypress="detectarEnter(event)" placeholder="Buscar por código..." type="text"/>
+<div id="sugerencias"></div>
 <div class="producto" style="margin: 0 auto; text-align: center; max-width: 600px;">
 <button onclick="filtrarPorLinea('linea-hogar')" style="margin: 5px; padding: 10px 20px; border-radius: 8px;">🏠 Línea Hogar</button>
 <button onclick="filtrarPorLinea('linea-automotriz')" style="margin: 5px; padding: 10px 20px; border-radius: 8px;">🚗 Línea Automotriz</button>
@@ -3114,6 +3138,86 @@ document.querySelectorAll(".boton-agregar").forEach(boton => {
 });
 </script>
 </style>
+<script>
+// --- Datos de todos los códigos para autocompletar ---
+let codigosCatalogo = [];
 
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelectorAll('.producto').forEach(prod => {
+    const detalles = prod.querySelector('.detalles');
+    if (detalles) {
+      detalles.querySelectorAll('p').forEach(p => {
+        const texto = p.innerText.toUpperCase();
+        if (texto.includes('CÓDIGO:')) {
+          const codigo = texto.replace('CÓDIGO:', '').trim();
+          codigosCatalogo.push({ codigo, producto: prod });
+        } else if (!texto.includes('CADA MODELO')) { // Para llaves de colores
+          const posibleCodigo = texto.replace(':', '').trim();
+          if (posibleCodigo.length > 0) {
+            codigosCatalogo.push({ codigo: posibleCodigo, producto: prod });
+          }
+        }
+      });
+    }
+  });
+});
+
+function detectarEnter(event) {
+  if (event.key === 'Enter') {
+    event.preventDefault();
+    const sugerencia = document.querySelector('.sugerencia-activa');
+    if (sugerencia) {
+      sugerencia.click();
+    } else {
+      buscarCodigoManual();
+    }
+  } else {
+    mostrarSugerencias();
+  }
+}
+
+function buscarCodigoManual() {
+  const codigoBuscado = document.getElementById('buscador').value.trim().toUpperCase();
+  if (!codigoBuscado) return;
+  let encontrado = false;
+  codigosCatalogo.forEach(item => {
+    if (item.codigo === codigoBuscado) {
+      resaltarYBajar(item.producto);
+      encontrado = true;
+    }
+  });
+  if (!encontrado) {
+    alert('Código no encontrado.');
+  }
+}
+
+function resaltarYBajar(elemento) {
+  document.querySelectorAll('.producto').forEach(prod => prod.classList.remove('resaltado'));
+  elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  elemento.classList.add('resaltado');
+}
+
+function mostrarSugerencias() {
+  const contenedor = document.getElementById('sugerencias');
+  const texto = document.getElementById('buscador').value.trim().toUpperCase();
+  contenedor.innerHTML = '';
+
+  if (texto.length === 0) return;
+
+  const coincidencias = codigosCatalogo.filter(item => item.codigo.includes(texto));
+
+  coincidencias.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'sugerencia';
+    div.innerText = item.codigo;
+    div.onclick = () => {
+      resaltarYBajar(item.producto);
+      contenedor.innerHTML = '';
+      document.getElementById('buscador').value = item.codigo;
+    };
+    contenedor.appendChild(div);
+  });
+}
+</script>
 </body>
 </html>
