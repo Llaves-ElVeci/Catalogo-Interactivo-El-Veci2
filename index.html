@@ -121,7 +121,6 @@
   }
 }
 </style>
-
 <script>
   const version = new Date().getTime();
 
@@ -163,10 +162,8 @@
   z-index: 1001;
 }
 </style>
-
 </head>
 <body>
-</div>
 <div <div="" class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
 <h2 style="text-align:center;">Estimado cliente</h2>
 <p style="text-align:center; font-size:1rem;">
@@ -177,7 +174,7 @@
   • Al por mayor (desde 10.000 llaves – $0.186 c/u)<br/><br/>
   Esta selección le permitirá visualizar los valores correspondientes por cada llave y generar su compra de forma correcta.
   <br/><br/>
-  <strong>Importante:</strong><br/>
+<strong>Importante:</strong><br/>
   • Si solo desea visualizar el catálogo, puede continuar sin seleccionar ninguna opción.<br/>
   • Si desea comprar exclusivamente productos de la <strong>Línea Automotriz</strong>, <strong>Llaves de Colores</strong> u otros artículos, <strong>no necesita seleccionar un tipo de compra</strong>.
 </p>
@@ -2338,117 +2335,94 @@
 <button class="boton-agregar" id="btn_cantidadARGOLLAS AL POR MENOR" onclick="agregarPedido('ARGOLLAS AL POR MENOR / 100 UNIDADES', 'cantidadARGOLLAS AL POR MENOR')">Agregar al pedido</button>
 </div>
 <div class="producto otros" data-precio="0.20" style="margin: 0 auto; text-align: center; max-width: 600px;">
-  <h2>LLAVES DE COLORES / YA107, TR3, VI2, KW1, YA6</h2>
-
-  <div class="imagen">
-    <video width="100%" controls autoplay muted style="margin-top: 30px; margin-bottom: 30px;">
-      <source src="imagenes/llaves_colores.mp4" type="video/mp4">
-    </video>
-  </div>
-
-  <div class="detalles">
-    <p><strong>Cada modelo de llave tiene un valor de:</strong> $0.20</p>
-    
-    <p><strong>YA107:</strong></p>
-    <label for="cantidadYA107_COLOR">Cantidad que desea comprar:</label>
-    <input id="cantidadYA107_COLOR" placeholder="Ej: 5" type="number"/>
-    <button class="boton-agregar" id="btn_YA107_COLOR" onclick="agregarPedido('YA107 COLOR', 'cantidadYA107_COLOR')">Agregar al pedido</button>
-
-    <p><strong>TR3:</strong></p>
-    <label for="cantidadTR3_COLOR">Cantidad que desea comprar:</label>
-    <input id="cantidadTR3_COLOR" placeholder="Ej: 5" type="number"/>
-    <button class="boton-agregar" id="btn_TR3_COLOR" onclick="agregarPedido('TR3 COLOR', 'cantidadTR3_COLOR')">Agregar al pedido</button>
-
-    <p><strong>VI2:</strong></p>
-    <label for="cantidadVI2_COLOR">Cantidad que desea comprar:</label>
-    <input id="cantidadVI2_COLOR" placeholder="Ej: 5" type="number"/>
-    <button class="boton-agregar" id="btn_VI2_COLOR" onclick="agregarPedido('VI2 COLOR', 'cantidadVI2_COLOR')">Agregar al pedido</button>
-
-    <p><strong>KW1:</strong></p>
-    <label for="cantidadKW1_COLOR">Cantidad que desea comprar:</label>
-    <input id="cantidadKW1_COLOR" placeholder="Ej: 5" type="number"/>
-    <button class="boton-agregar" id="btn_KW1_COLOR" onclick="agregarPedido('KW1 COLOR', 'cantidadKW1_COLOR')">Agregar al pedido</button>
-
-    <p><strong>YA6:</strong></p>
-    <label for="cantidadYA6_COLOR">Cantidad que desea comprar:</label>
-    <input id="cantidadYA6_COLOR" placeholder="Ej: 5" type="number"/>
-    <button class="boton-agregar" id="btn_YA6_COLOR" onclick="agregarPedido('YA6 COLOR', 'cantidadYA6_COLOR')">Agregar al pedido</button>
-  </div>
+<h2>LLAVES DE COLORES / YA107, TR3, VI2, KW1, YA6</h2>
+<div class="imagen">
+<video autoplay="" controls="" muted="" style="margin-top: 30px; margin-bottom: 30px;" width="100%">
+<source src="imagenes/llaves_colores.mp4" type="video/mp4"/>
+</video>
+</div>
+<div class="detalles">
+<p><strong>Cada modelo de llave tiene un valor de:</strong> $0.20</p>
+<p><strong>YA107:</strong></p>
+<label for="cantidadYA107_COLOR">Cantidad que desea comprar:</label>
+<input id="cantidadYA107_COLOR" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_YA107_COLOR" onclick="agregarPedido('YA107 COLOR', 'cantidadYA107_COLOR')">Agregar al pedido</button>
+<p><strong>TR3:</strong></p>
+<label for="cantidadTR3_COLOR">Cantidad que desea comprar:</label>
+<input id="cantidadTR3_COLOR" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_TR3_COLOR" onclick="agregarPedido('TR3 COLOR', 'cantidadTR3_COLOR')">Agregar al pedido</button>
+<p><strong>VI2:</strong></p>
+<label for="cantidadVI2_COLOR">Cantidad que desea comprar:</label>
+<input id="cantidadVI2_COLOR" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_VI2_COLOR" onclick="agregarPedido('VI2 COLOR', 'cantidadVI2_COLOR')">Agregar al pedido</button>
+<p><strong>KW1:</strong></p>
+<label for="cantidadKW1_COLOR">Cantidad que desea comprar:</label>
+<input id="cantidadKW1_COLOR" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_KW1_COLOR" onclick="agregarPedido('KW1 COLOR', 'cantidadKW1_COLOR')">Agregar al pedido</button>
+<p><strong>YA6:</strong></p>
+<label for="cantidadYA6_COLOR">Cantidad que desea comprar:</label>
+<input id="cantidadYA6_COLOR" placeholder="Ej: 5" type="number"/>
+<button class="boton-agregar" id="btn_YA6_COLOR" onclick="agregarPedido('YA6 COLOR', 'cantidadYA6_COLOR')">Agregar al pedido</button>
+</div>
 <div class="producto otros" style="margin: 0 auto; text-align: center; max-width: 600px;">
-  <h2>COPIADORA DE LLAVES / PARA LINEA DE HOGAR Y LINEA AUTOMOTRIZ</h2>
-
-  <!-- Video demostrativo -->
-  <div class="imagen">
-    <video width="100%" controls autoplay muted style="margin-top: 30px; margin-bottom: 10px;">
-      <source src="imagenes/copiadora_llaves.mp4" type="video/mp4">
+<h2>COPIADORA DE LLAVES / PARA LINEA DE HOGAR Y LINEA AUTOMOTRIZ</h2>
+<!-- Video demostrativo -->
+<div class="imagen">
+<video autoplay="" controls="" muted="" style="margin-top: 30px; margin-bottom: 10px;" width="100%">
+<source src="imagenes/copiadora_llaves.mp4" type="video/mp4"/>
       Su navegador no admite videos HTML5.
     </video>
-  </div>
-
-  <!-- Imagen de la copiadora -->
-  <div class="imagen">
-    <a href="imagenes/copiadora_llaves.jpeg" target="_blank">
-      <img src="imagenes/copiadora_llaves.jpeg" alt="Copiadora de Llaves" style="width: 100%; height: auto; object-fit: contain; margin-top: 10px; margin-bottom: 30px;" />
-    </a>
-  </div>
-
-  <!-- Descripción -->
-  <div class="detalles">
-    <p><strong>¿Desea cotizar esta copiadora?</strong></p>
-    <p>Contáctenos por WhatsApp y le brindamos toda la información sobre este modelo para copiado de llaves de la linea de hogar y la linea automotriz. Ideal para ferreterías, cerrajerías o negocios especializados.</p>
-    <a href="https://wa.me/5930983889592?text=Hola, deseo más información sobre la copiadora de llaves que aparece en su catálogo interactivo. Estoy interesado(a) en su precio, características y disponibilidad.
+</div>
+<!-- Imagen de la copiadora -->
+<div class="imagen">
+<a href="imagenes/copiadora_llaves.jpeg" target="_blank">
+<img alt="Copiadora de Llaves" src="imagenes/copiadora_llaves.jpeg" style="width: 100%; height: auto; object-fit: contain; margin-top: 10px; margin-bottom: 30px;"/>
+</a>
+</div>
+<!-- Descripción -->
+<div class="detalles">
+<p><strong>¿Desea cotizar esta copiadora?</strong></p>
+<p>Contáctenos por WhatsApp y le brindamos toda la información sobre este modelo para copiado de llaves de la linea de hogar y la linea automotriz. Ideal para ferreterías, cerrajerías o negocios especializados.</p>
+<a href="https://wa.me/5930983889592?text=Hola, deseo más información sobre la copiadora de llaves que aparece en su catálogo interactivo. Estoy interesado(a) en su precio, características y disponibilidad.
 
 Por favor bríndeme una cotización. Gracias." target="_blank">
-      <button class="boton-verde">💬 Solicitar Cotización</button>
-    </a>
-  </div>
+<button class="boton-verde">💬 Solicitar Cotización</button>
+</a>
+</div>
 </div>
 <!-- MÉTODOS DE PAGO ACEPTADOS -->
 <div class="producto" style="margin: 0 auto; text-align: center; max-width: 600px; border: 2px dashed #28a745; padding: 20px; border-radius: 12px; background: #f8fff5;">
-  <h2 style="color: #28a745;">💳 Métodos de Pago Aceptados</h2>
-  <p style="font-size: 1.1rem; margin-top: 10px;">Usted puede realizar su pago de forma segura mediante:</p>
-  <ul style="list-style: none; padding: 0; font-size: 1rem; text-align: left; display: inline-block;">
-    <li style="margin-bottom: 8px;">✅ Tarjeta de crédito <strong>VISA</strong> y <strong>MasterCard</strong></li>
-    <li style="margin-bottom: 8px;">✅ Transferencias bancarias</li>
-    <li style="margin-bottom: 8px;">✅ Pagos en efectivo</li>
-  </ul>
-  <p style="font-size: 0.95rem; color: #555;">* Una vez confirmado su pedido por WhatsApp, le enviaremos los datos correspondientes.</p>
-
-  <!-- Imagen decorativa con logos -->
-  <img src="imagenes/metodos_pago.png" alt="Métodos de Pago Aceptados" style="width: 100%; max-width: 500px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-top: 20px;"/>
+<h2 style="color: #28a745;">💳 Métodos de Pago Aceptados</h2>
+<p style="font-size: 1.1rem; margin-top: 10px;">Usted puede realizar su pago de forma segura mediante:</p>
+<ul style="list-style: none; padding: 0; font-size: 1rem; text-align: left; display: inline-block;">
+<li style="margin-bottom: 8px;">✅ Tarjeta de crédito <strong>VISA</strong> y <strong>MasterCard</strong></li>
+<li style="margin-bottom: 8px;">✅ Transferencias bancarias</li>
+<li style="margin-bottom: 8px;">✅ Pagos en efectivo</li>
+</ul>
+<p style="font-size: 0.95rem; color: #555;">* Una vez confirmado su pedido por WhatsApp, le enviaremos los datos correspondientes.</p>
+<!-- Imagen decorativa con logos -->
+<img alt="Métodos de Pago Aceptados" src="imagenes/metodos_pago.png" style="width: 100%; max-width: 500px; border-radius: 12px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); margin-top: 20px;"/>
 </div>
 <!-- UBICACIÓN Y ENVÍOS -->
 <div class="producto" style="margin: 40px auto; text-align: center; max-width: 600px; border: 2px solid #007bff; padding: 20px; border-radius: 12px; background: #f0f8ff;">
-  <h2 style="color: #007bff;">📍 Nuestra Ubicación</h2>
-  <p style="font-size: 1.1rem;">Estamos ubicados en <strong>Av. 2 de Agosto OE12-58 y El Belén, Quito 170804</strong></p>
-
-  <!-- Mapa embebido -->
-  <div style="margin-top: 20px;">
-  <iframe
-      src="https://www.google.com/maps?q=-0.2859565,-78.4407871&hl=es&z=18&output=embed"
-      width="100%"
-      height="300"
-      style="border:0; border-radius: 12px;"
-      allowfullscreen=""
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-
-  </div>
-
-  <!-- Botón para abrir Google Maps -->
-  <div style="margin-top: 15px;">
-    <a href="https://maps.app.goo.gl/Q3FXwZuwz5x23xTV9" target="_blank">
-      <button class="boton-verde" style="padding: 10px 20px; border-radius: 8px; font-size: 1rem; background-color: #25d366; color: white; border: none; cursor: pointer;">
+<h2 style="color: #007bff;">📍 Nuestra Ubicación</h2>
+<p style="font-size: 1.1rem;">Estamos ubicados en <strong>Av. 2 de Agosto OE12-58 y El Belén, Quito 170804</strong></p>
+<!-- Mapa embebido -->
+<div style="margin-top: 20px;">
+<iframe allowfullscreen="" height="300" loading="lazy" referrerpolicy="no-referrer-when-downgrade" src="https://www.google.com/maps?q=-0.2859565,-78.4407871&amp;hl=es&amp;z=18&amp;output=embed" style="border:0; border-radius: 12px;" width="100%">
+</iframe>
+</div>
+<!-- Botón para abrir Google Maps -->
+<div style="margin-top: 15px;">
+<a href="https://maps.app.goo.gl/Q3FXwZuwz5x23xTV9" target="_blank">
+<button class="boton-verde" style="padding: 10px 20px; border-radius: 8px; font-size: 1rem; background-color: #25d366; color: white; border: none; cursor: pointer;">
         📍 Ver ubicación en Google Maps
       </button>
-    </a>
-  </div>
-
-  <h3 style="color: #28a745; margin-top: 20px;">🚚 Envíos a Nivel Nacional</h3>
-  <p style="font-size: 1.05rem;">Realizamos envíos a todo el Ecuador con entregas garantizadas en un máximo de <strong>24 horas hábiles</strong>, directamente a su domicilio o negocio.</p>
-
-  <p style="font-size: 0.95rem; color: #444; margin-top: 10px;">
+</a>
+</div>
+<h3 style="color: #28a745; margin-top: 20px;">🚚 Envíos a Nivel Nacional</h3>
+<p style="font-size: 1.05rem;">Realizamos envíos a todo el Ecuador con entregas garantizadas en un máximo de <strong>24 horas hábiles</strong>, directamente a su domicilio o negocio.</p>
+<p style="font-size: 0.95rem; color: #444; margin-top: 10px;">
     Para más información sobre la entrega o cobertura exacta, no dude en contactarnos por WhatsApp.
   </p>
 </div>
@@ -2602,7 +2576,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
-
 <script>
 function detectarEnter(e) {
   if (e.key === "Enter") {
@@ -3137,64 +3110,29 @@ document.querySelectorAll(".boton-agregar").forEach(boton => {
   });
 });
 </script>
-</style>
-<script>
-// --- Datos de todos los códigos para autocompletar ---
-let codigosCatalogo = [];
+</div></div></div>
 
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.producto').forEach(prod => {
-    const detalles = prod.querySelector('.detalles');
-    if (detalles) {
-      detalles.querySelectorAll('p').forEach(p => {
-        const texto = p.innerText.toUpperCase();
-        if (texto.includes('CÓDIGO:')) {
-          const codigo = texto.replace('CÓDIGO:', '').trim();
-          codigosCatalogo.push({ codigo, producto: prod });
-        } else if (!texto.includes('CADA MODELO')) { // Para llaves de colores
-          const posibleCodigo = texto.replace(':', '').trim();
-          if (posibleCodigo.length > 0) {
-            codigosCatalogo.push({ codigo: posibleCodigo, producto: prod });
-          }
-        }
-      });
-    }
-  });
-});
+
+<style>
+.resaltado {
+  background-color: #fff9c4;
+  border: 2px solid #fdd835;
+  padding: 10px;
+  border-radius: 10px;
+  transition: background-color 0.5s, border 0.5s;
+}
+</style>
+
+<script>
+const codigosCatalogo = ['YA1', 'YA2', 'YA6', 'YA7', 'YA8', 'YA10', 'YA11', 'YA29', 'YA30', 'YA35', 'YA107', 'YA108', 'FA5', 'FA6', 'CO2', 'CO6', 'CO38', 'CO37', 'KW1', 'KW1L', 'KW2', 'KW7', 'VI1', 'VI2', 'VI3', 'VI4', 'VI5', 'VI6', 'VI7', 'VI8', 'VI9', 'VI10', 'VI13', 'VI14', 'TR3', 'GB3', 'GB4', 'GB7', 'FO4P', 'FAN1D', 'CORSA TP', 'OP8P', 'DISCO 60 DIENTES', 'DISCO 80 DIENTES', 'ARGOLLAS', 'ARGOLLAS (P)', 'LLAVES DE COLORES', 'COPIADORA'];
 
 function detectarEnter(event) {
   if (event.key === 'Enter') {
     event.preventDefault();
-    const sugerencia = document.querySelector('.sugerencia-activa');
-    if (sugerencia) {
-      sugerencia.click();
-    } else {
-      buscarCodigoManual();
-    }
+    mostrarSugerencias();
   } else {
     mostrarSugerencias();
   }
-}
-
-function buscarCodigoManual() {
-  const codigoBuscado = document.getElementById('buscador').value.trim().toUpperCase();
-  if (!codigoBuscado) return;
-  let encontrado = false;
-  codigosCatalogo.forEach(item => {
-    if (item.codigo === codigoBuscado) {
-      resaltarYBajar(item.producto);
-      encontrado = true;
-    }
-  });
-  if (!encontrado) {
-    alert('Código no encontrado.');
-  }
-}
-
-function resaltarYBajar(elemento) {
-  document.querySelectorAll('.producto').forEach(prod => prod.classList.remove('resaltado'));
-  elemento.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  elemento.classList.add('resaltado');
 }
 
 function mostrarSugerencias() {
@@ -3204,19 +3142,43 @@ function mostrarSugerencias() {
 
   if (texto.length === 0) return;
 
-  const coincidencias = codigosCatalogo.filter(item => item.codigo.includes(texto));
+  const coincidencias = codigosCatalogo.filter(codigo => codigo.startsWith(texto));
 
-  coincidencias.forEach(item => {
+  coincidencias.forEach(codigo => {
     const div = document.createElement('div');
     div.className = 'sugerencia';
-    div.innerText = item.codigo;
+    div.innerText = codigo;
     div.onclick = () => {
-      resaltarYBajar(item.producto);
+      document.getElementById('buscador').value = codigo;
       contenedor.innerHTML = '';
-      document.getElementById('buscador').value = item.codigo;
+      buscarCodigoEnPagina(codigo);
     };
     contenedor.appendChild(div);
   });
+}
+
+function buscarCodigoEnPagina(codigoBuscado) {
+  const productos = document.querySelectorAll('.producto');
+  let encontrado = false;
+
+  productos.forEach(prod => {
+    prod.classList.remove('resaltado');
+    const detalle = prod.querySelector('.detalles');
+    if (detalle) {
+      const pCodigo = Array.from(detalle.querySelectorAll('p')).find(p => 
+        p.querySelector('strong') && p.querySelector('strong').innerText.trim().toUpperCase() === 'CÓDIGO:'
+      );
+      if (pCodigo && pCodigo.innerText.replace('Código:', '').trim().toUpperCase() === codigoBuscado) {
+        prod.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        prod.classList.add('resaltado');
+        encontrado = true;
+      }
+    }
+  });
+
+  if (!encontrado) {
+    alert('Código no encontrado.');
+  }
 }
 </script>
 </body>
