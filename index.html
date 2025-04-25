@@ -96,7 +96,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  z-index: 9999;
+  z-index: 10000;
 }
 #botonesFlotantes button {
   width: 45px;
@@ -187,8 +187,43 @@
   background-color: #f0f0f0;
 }
 </style>
-
-</head>
+<style>
+#buscador-container {
+  position: relative;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+}
+#buscador {
+  width: 100%;
+  font-size: 1.1rem;
+  padding: 10px;
+  box-sizing: border-box;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+}
+#sugerencias {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: white;
+  z-index: 9999;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 8px rgba(0,0,0,0.15);
+  max-height: 200px;
+  overflow-y: auto;
+  border-radius: 8px;
+}
+.sugerencia {
+  padding: 10px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.sugerencia:hover {
+  background-color: #f0f0f0;
+}
+</style></head>
 <body>
 <div <div="" class="producto" style="background:#e6f7ff; border: 2px solid #007bff; margin: 0 auto; max-width: 700px; text-align: center;">
 <h2 style="text-align:center;">Estimado cliente</h2>
@@ -213,8 +248,8 @@
 </div>
 <div class="producto" style="margin: 0 auto; text-align: center; max-width: 600px;">
 <h2>CATÁLOGO INTERACTIVO "EL VECI"<div style="text-align:center;"><p style="font-family: 'Georgia', serif; font-size: 1.15rem; text-align: center; color: #333; margin: 15px 0;">Usted puede seleccionar el código de la llave que necesite, indicar la cantidad requerida y agregarla al carrito. Al finalizar, tendrá la opción de enviar su pedido por WhatsApp para recibir una cotización formal de manera directa.</p><img src="imagenes/logo_el_veci.png" style="max-width:300px;margin:20px 0;"/></div> </h2>
-<p style="font-size: 1.05rem; font-weight: bold; margin-top: 10px; text-align: center;">🔑 Si usted ya conoce el código de la llave que necesita, puede escribirlo a continuación y generar su lista de pedido. En caso de no tener el código, también puede explorar todo nuestro catálogo con tranquilidad.</p><div><div style="position: relative; max-width: 600px; margin: 0 auto;"><input id="buscador" onkeypress="detectarEnter(event)" placeholder="Buscar por código..." type="text"/>
-<div id="sugerencias"></div>
+<p style="font-size: 1.05rem; font-weight: bold; margin-top: 10px; text-align: center;">🔑 Si usted ya conoce el código de la llave que necesita, puede escribirlo a continuación y generar su lista de pedido. En caso de no tener el código, también puede explorar todo nuestro catálogo con tranquilidad.</p><div><div style="position: relative; max-width: 600px; margin: 0 auto;"><div id="buscador-container" style="position: relative; max-width: 600px; margin: 0 auto;"><input id="buscador" onkeypress="detectarEnter(event)" placeholder="Buscar por código..." type="text"/><div id="sugerencias"></div></div>
+
 <div class="producto" style="margin: 0 auto; text-align: center; max-width: 600px;">
 <button onclick="filtrarPorLinea('linea-hogar')" style="margin: 5px; padding: 10px 20px; border-radius: 8px;">🏠 Línea Hogar</button>
 <button onclick="filtrarPorLinea('linea-automotriz')" style="margin: 5px; padding: 10px 20px; border-radius: 8px;">🚗 Línea Automotriz</button>
@@ -3137,8 +3172,6 @@ document.querySelectorAll(".boton-agregar").forEach(boton => {
 });
 </script>
 </div></div></div>
-
-
 <style>
 .resaltado {
   background-color: #fff9c4;
@@ -3148,7 +3181,6 @@ document.querySelectorAll(".boton-agregar").forEach(boton => {
   transition: background-color 0.5s, border 0.5s;
 }
 </style>
-
 <script>
 const codigosCatalogo = [
   "TR3",
@@ -3323,5 +3355,172 @@ function buscarCodigoEnPagina(codigoBuscado) {
 
 
 </script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const buscador = document.getElementById('buscador');
+  const sugerencias = document.getElementById('sugerencias');
+
+  const codigosCatalogo = [
+  "TR3",
+  "YA107",
+  "KW7",
+  "CA7K",
+  "VI14",
+  "VI13",
+  "VI2",
+  "VI1",
+  "VI5",
+  "VI6",
+  "VI4",
+  "VI3",
+  "VI7",
+  "VI8",
+  "VI9",
+  "VI10",
+  "GB3",
+  "GB4",
+  "GB7",
+  "FA5",
+  "FA6",
+  "YA108",
+  "YA8",
+  "YA10",
+  "YA6",
+  "YA35",
+  "YA11",
+  "YA29",
+  "YA7",
+  "YA30",
+  "YA1",
+  "YA2",
+  "KW1L",
+  "KW1",
+  "KW2",
+  "GO2",
+  "SA2",
+  "CO2",
+  "CO6",
+  "CO38",
+  "SC7",
+  "SC1",
+  "GT7",
+  "FAN1D",
+  "CO37",
+  "PH55/52",
+  "PR1",
+  "QU1 / SA1",
+  "TK1",
+  "TRU3D",
+  "PH32",
+  "GT8",
+  "AMC1",
+  "CHV3P",
+  "CHV2P",
+  "CAT",
+  "CARCASA SZ10",
+  "ASTRA TP",
+  "CORSA TP",
+  "DMAX",
+  "DN4",
+  "GM25P",
+  "GM26P",
+  "HINO",
+  "HY9P",
+  "HY8P",
+  "HY7P",
+  "HY6P",
+  "HONDA IZQUIERDA",
+  "HONDA DERECHA",
+  "HO12P",
+  "MG1P",
+  "FO4P",
+  "VW-TP DIFERENTE",
+  "TP-DN9",
+  "MAPA LISA",
+  "MAPA CENTRO",
+  "MAPA DERECHA",
+  "MAPA IZQUIERDA",
+  "MZ5",
+  "OP7P ASTRA",
+  "OP8P CORSA",
+  "PEUGEOT 2 BOTONES",
+  "PEUGEOT TP",
+  "KI2P",
+  "KI2P ANCHA",
+  "KI1P",
+  "SAIL TP",
+  "TO11",
+  "TO11P",
+  "TO11 TP",
+  "TO11P 2 BOTONES",
+  "TO11P 4 BOTONES",
+  "TO5",
+  "TO6",
+  "IZU3",
+  "TO5P",
+  "TO6P",
+  "DISCO 60 DIENTES",
+  "DISCO 80 DIENTES",
+  "ARGOLLAS",
+  "LLAVES DE COLORES",
+  "COPIADORA"
+];
+
+  buscador.addEventListener('input', function() {
+    const texto = buscador.value.trim().toUpperCase();
+    sugerencias.innerHTML = '';
+
+    if (texto.length === 0) return;
+
+    const coincidencias = codigosCatalogo.filter(codigo => codigo.includes(texto));
+
+    coincidencias.forEach(codigo => {
+      const div = document.createElement('div');
+      div.className = 'sugerencia';
+      div.innerText = codigo;
+      div.onclick = function() {
+        buscador.value = codigo;
+        sugerencias.innerHTML = '';
+        buscarCodigoEnPagina(codigo);
+      };
+      sugerencias.appendChild(div);
+    });
+  });
+});
+
+function buscarCodigoEnPagina(codigoBuscado) {
+  const productos = document.querySelectorAll('.producto');
+  let encontrado = false;
+
+  productos.forEach(prod => {
+    prod.classList.remove('resaltado');
+    const detalle = prod.querySelector('.detalles');
+    const titulo = prod.querySelector('h2');
+
+    if (detalle) {
+      const pCodigo = Array.from(detalle.querySelectorAll('p')).find(p =>
+        p.querySelector('strong') && p.querySelector('strong').innerText.trim().toUpperCase() === 'CÓDIGO:'
+      );
+      if (pCodigo && pCodigo.innerText.replace('Código:', '').trim().toUpperCase() === codigoBuscado) {
+        prod.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        prod.classList.add('resaltado');
+        encontrado = true;
+      }
+    }
+
+    if (!encontrado && titulo && titulo.innerText.trim().toUpperCase().includes(codigoBuscado)) {
+      prod.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      prod.classList.add('resaltado');
+      encontrado = true;
+    }
+  });
+
+  if (!encontrado) {
+    alert('Código no encontrado.');
+  }
+}
+</script>
+
 </body>
 </html>
