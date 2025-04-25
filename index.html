@@ -3124,7 +3124,111 @@ document.querySelectorAll(".boton-agregar").forEach(boton => {
 </style>
 
 <script>
-const codigosCatalogo = ['YA1', 'YA2', 'YA6', 'YA7', 'YA8', 'YA10', 'YA11', 'YA29', 'YA30', 'YA35', 'YA107', 'YA108', 'FA5', 'FA6', 'CO2', 'CO6', 'CO38', 'CO37', 'KW1', 'KW1L', 'KW2', 'KW7', 'VI1', 'VI2', 'VI3', 'VI4', 'VI5', 'VI6', 'VI7', 'VI8', 'VI9', 'VI10', 'VI13', 'VI14', 'TR3', 'GB3', 'GB4', 'GB7', 'FO4P', 'FAN1D', 'CORSA TP', 'OP8P', 'DISCO 60 DIENTES', 'DISCO 80 DIENTES', 'ARGOLLAS', 'ARGOLLAS (P)', 'LLAVES DE COLORES', 'COPIADORA'];
+const codigosCatalogo = [
+  "TR3",
+  "YA107",
+  "KW7",
+  "CA7K",
+  "VI14",
+  "VI13",
+  "VI2",
+  "VI1",
+  "VI5",
+  "VI6",
+  "VI4",
+  "VI3",
+  "VI7",
+  "VI8",
+  "VI9",
+  "VI10",
+  "GB3",
+  "GB4",
+  "GB7",
+  "FA5",
+  "FA6",
+  "YA108",
+  "YA8",
+  "YA10",
+  "YA6",
+  "YA35",
+  "YA11",
+  "YA29",
+  "YA7",
+  "YA30",
+  "YA1",
+  "YA2",
+  "KW1L",
+  "KW1",
+  "KW2",
+  "GO2",
+  "SA2",
+  "CO2",
+  "CO6",
+  "CO38",
+  "SC7",
+  "SC1",
+  "GT7",
+  "FAN1D",
+  "CO37",
+  "PH55/52",
+  "PR1",
+  "QU1 / SA1",
+  "TK1",
+  "TRU3D",
+  "PH32",
+  "GT8",
+  "AMC1",
+  "CHV3P",
+  "CHV2P",
+  "CAT",
+  "CARCASA SZ10",
+  "ASTRA TP",
+  "CORSA TP",
+  "DMAX",
+  "DN4",
+  "GM25P",
+  "GM26P",
+  "HINO",
+  "HY9P",
+  "HY8P",
+  "HY7P",
+  "HY6P",
+  "HONDA IZQUIERDA",
+  "HONDA DERECHA",
+  "HO12P",
+  "MG1P",
+  "FO4P",
+  "VW-TP DIFERENTE",
+  "TP-DN9",
+  "MAPA LISA",
+  "MAPA CENTRO",
+  "MAPA DERECHA",
+  "MAPA IZQUIERDA",
+  "MZ5",
+  "OP7P ASTRA",
+  "OP8P CORSA",
+  "PEUGEOT 2 BOTONES",
+  "PEUGEOT TP",
+  "KI2P",
+  "KI2P ANCHA",
+  "KI1P",
+  "SAIL TP",
+  "TO11",
+  "TO11P",
+  "TO11 TP",
+  "TO11P 2 BOTONES",
+  "TO11P 4 BOTONES",
+  "TO5",
+  "TO6",
+  "IZU3",
+  "TO5P",
+  "TO6P",
+  "DISCO 60 DIENTES",
+  "DISCO 80 DIENTES",
+  "ARGOLLAS",
+  "LLAVES DE COLORES",
+  "COPIADORA"
+];
 
 function detectarEnter(event) {
   if (event.key === 'Enter') {
@@ -3164,8 +3268,11 @@ function buscarCodigoEnPagina(codigoBuscado) {
   productos.forEach(prod => {
     prod.classList.remove('resaltado');
     const detalle = prod.querySelector('.detalles');
+    const titulo = prod.querySelector('h2');
+
+    // Buscar primero en Código:
     if (detalle) {
-      const pCodigo = Array.from(detalle.querySelectorAll('p')).find(p => 
+      const pCodigo = Array.from(detalle.querySelectorAll('p')).find(p =>
         p.querySelector('strong') && p.querySelector('strong').innerText.trim().toUpperCase() === 'CÓDIGO:'
       );
       if (pCodigo && pCodigo.innerText.replace('Código:', '').trim().toUpperCase() === codigoBuscado) {
@@ -3174,12 +3281,21 @@ function buscarCodigoEnPagina(codigoBuscado) {
         encontrado = true;
       }
     }
+
+    // Si no lo encontró en Código, buscar que el título CONTENGA el código buscado
+    if (!encontrado && titulo && titulo.innerText.trim().toUpperCase().includes(codigoBuscado)) {
+      prod.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      prod.classList.add('resaltado');
+      encontrado = true;
+    }
   });
 
   if (!encontrado) {
     alert('Código no encontrado.');
   }
 }
+
+
 </script>
 </body>
 </html>
